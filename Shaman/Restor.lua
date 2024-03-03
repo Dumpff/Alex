@@ -1,4 +1,3 @@
-local body = [[
 local addonName, _A = ...
 local _G = _A._G
 local U = _A.Cache.Utils
@@ -978,4 +977,4 @@ _A.CR:Add(264, {
         exeOnUnload()
     end
 })
-]]
+
