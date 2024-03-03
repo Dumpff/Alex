@@ -16,6 +16,7 @@ _A.CR:Add(577, {
     apep_ver = "1.1",
     load = exeOnLoad,
     unload = exeOnUnload,
+_A.Interface:ResetCRs(),
 })
 ]]
 
