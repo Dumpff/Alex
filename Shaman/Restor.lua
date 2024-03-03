@@ -6,8 +6,8 @@ local DSL = function(api) return _A.DSL:Get(api) end
 local Bless_List = {
     {key = "1", text = "Оружие языка пламяни"},
     {key = "2", text = "Оружие неистовства ветра"},
-    {key = "3", text = "Оружие жизни земqw"},
-    {key = "0", text = "Disable"},
+    {key = "3", text = "Оружие жизни земли"},
+    {key = "0", text = "Отключено"},
 }
 
 local Bless = {
