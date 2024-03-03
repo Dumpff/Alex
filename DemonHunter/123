@@ -1,0 +1,28 @@
+local addonName, _A = ...
+
+local body = [[
+local addonName, _A = ...
+local U = _A.Cache.Utils;
+local DSL = function(api) return _A.DSL:Get(api) end
+
+local inCombat = {}
+local outCombat = {}
+
+_A.CR:Add(577, {
+    name = "[|cffe95ca1DrunkMate|r]|cffe95ca1 Cloud - Cloud blank",
+    ic = inCombat,
+    ooc = outCombat,
+    wow_ver = "10.1.7",
+    apep_ver = "1.1",
+    load = exeOnLoad,
+    unload = exeOnUnload,
+})
+]]
+
+
+local func, errorMessage = loadstring(body, "DrunkMate")
+if func then
+    func(addonName, _A)
+else
+    message("|cFFff0000loadstring error|r\n\n"..errorMessage)
+end
