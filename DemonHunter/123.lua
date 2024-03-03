@@ -10,8 +10,6 @@ local outCombat = {}
 
 _A.CR:Add(577, {
     name = "[|cffe95ca1DrunkMate|r]|cffe95ca1 Cloud - Cloud blank",
-    _A.print("|cffFACC2E"..Name.." loaded.|r"),
-    _A.CR:Set(GetSpecializationInfo(GetSpecialization()), Name, true) ---> 3rd parameter (true -> from the net),
     ic = inCombat,
     ooc = outCombat,
     wow_ver = "10.1.7",
@@ -20,10 +18,6 @@ _A.CR:Add(577, {
     unload = exeOnUnload,
 })
 ]]
-
-local Name = "[|cffe95ca1DrunkMate|r]|cffe95ca1 Cloud - Cloud blank"
-_A.print("|cffFACC2E"..Name.." loaded.|r")
-_A.CR:Set(GetSpecializationInfo(GetSpecialization()), Name, true) ---> 3rd parameter (true -> from the net)
 
 
 local func, errorMessage = loadstring(body, "DrunkMate")
