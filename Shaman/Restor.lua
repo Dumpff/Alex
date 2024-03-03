@@ -958,7 +958,7 @@ local outOfCombat = {
 }
 
 _A.CR:Add(264, {
-    name = "[Restor(test)]",
+    name = "[Restorr(test)]",
     load = function()
         print("Load function executed")
         exeOnLoad()
