@@ -1,4 +1,6 @@
 local addonName, _A = ...
+local body = [[
+local addonName, _A = ...
 local _G = _A._G
 local U = _A.Cache.Utils
 local DSL = function(api) return _A.DSL:Get(api) end
@@ -977,3 +979,4 @@ _A.CR:Add(264, {
         exeOnUnload()
     end
 })
+]]
