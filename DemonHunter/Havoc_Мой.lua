@@ -588,7 +588,7 @@ local outOfCombat = {
 
 
 _A.CR:Add(577, {
-    name = "[Havoc]",
+    name = "[Havoc_Mine]",
     load = function()
         print("Load function executed")
         exeOnLoad()
