@@ -299,7 +299,8 @@ local Rotation = {
     {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},
     
     {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
-    {"Водный щит", "spell.ready && !player.buff"},
+    --{"Водный щит", "spell.ready && !player.buff"},
+    {"Water Shield", "spell.ready && !player.buff"},
     {"Lightning Shield", "spell.ready && !player.buff"},
 
 
