@@ -37,7 +37,7 @@ local Bless_List = {
 }
 
 local Bless = {
-    {"Оружие языка пламени", "ui(blesstype)=1 && !W_Enchant(5400) && spell.ready"},    
+    {"5400", "ui(blesstype)=1 && !W_Enchant(5400) && spell.ready"},                            --Оружие языка пламени
     {"Оружие неистовства ветра", "ui(blesstype)=2 && !W_Enchant(5401) && spell.ready"},    
     {"Оружие жизни земли", "ui(blesstype)=3 && !W_Enchant(6498) && spell.ready"},    
 }
