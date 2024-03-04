@@ -140,8 +140,9 @@ local GUI = {
         {type = "spacer", size = 7},
 
         ---- Тотемы
-
+        {type = "ruler"},
         {type = "header", text = "Totems", align = "center", size = "16"},
+        {type = "ruler"},
         {type = "spacer", size = 10},
         {type = "checkspin", key = "tothkey", size = 14, text = FlexIcon(5394, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
@@ -149,8 +150,10 @@ local GUI = {
         {type = "spacer", size = 7},
 
         ---- Диспелы
-
+    
+        {type = "ruler"},
         {type = "header", text = "Dispels", align = "center", size = "16"},
+        {type = "ruler"},
         {type = "spacer", size = 10},
         {key = "purgekey", type = "checkbox", size = 14, text = FlexIcon(370, 16, 16, true), default = true, align = "left", check = true,}, 
         {type = "spacer", size = 7},
@@ -162,8 +165,9 @@ local GUI = {
         
 
             ---- Defensive Ally Abilities 
-
+        {type = "ruler"},
         {type = "header", text = "Массовые защитные скилы", align = "center", size = "16", offset = 15},
+        {type = "ruler"},
         {type = "spacer", size = 10},
         {key = "Astral Shift", type = "checkspin", size = 14, text = FlexIcon(108271, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60},
         {type = "spacer"},
