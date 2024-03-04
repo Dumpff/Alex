@@ -117,11 +117,12 @@ local GUI = {
         
         ---Лечебные скилы
         {type = "header", text = "Healing skills", align = "center", size = "16"},
+        {type = "separator"},
         {type = "spacer", size = 10},
         {type = "dropdown", width = 180, size = 14, text = "Enchant mainhand", key = "blesstype", list = Bless_List, default = "0"},
         {type = "spacer", size = 7},
-        {type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
-        {type = "spacer", size = 7},
+       -- {type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
+       -- {type = "spacer", size = 7},
         {type = "checkspin", key = "HWkey", size = 14, text = FlexIcon(77472, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         --{type = "checkspin", key = "HWkey", size = 14, text = _A.Core:GetSpellIcon(77472, 16, 16).."Волна исцеления", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
