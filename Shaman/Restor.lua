@@ -113,9 +113,11 @@ end)
 
 
 local GUI = {
+        {type = "ruler"},
         {type = "texture", texture = "Interface\\Addons\\Apofis\\Core\\media\\MyLogo.tga", width = 420, height = 200, offset = 190, y= -90, align = "center"},
         
         ---Лечебные скилы
+        {type = "ruler"},
         {type = "header", text = "Healing skills", align = "center", size = "16"},
         {type = "ruler"},
         {type = "spacer", size = 10},
