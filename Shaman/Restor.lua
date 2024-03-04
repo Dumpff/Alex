@@ -136,7 +136,7 @@ local GUI = {
         {type = "spacer", size = 7},
         {type = "checkspin", key = "cepkey", size = 14, text = FlexIcon(1064, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "blagkey", size = 14, text = FlexIcon(79206, 16, 16, true), default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "blagkey", size = 14, text = FlexIcon(79206, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
 
         ---- Тотемы
@@ -181,22 +181,17 @@ local GUI = {
        -- {type = "spacer", size = 5},
 }
 local spell_ids = {
-    ["Bloodlust"] = 2825, -- Жажда крови
-   
+    ["Bloodlust"] = 2825, -- Жажда крови   
     ["Lava Burst"] = 51505, -- Выброс лавы (талант)
     ["Frost Shock"] = 196840, -- Ледяной шок(талант)
     ["Thunderstorm"] = 51490, -- гром и молния (талант)
-    ["Lightning Bolt"] = 188196, -- Молния
-    ["Ancestral Guidance"] = 108281, -- Наставление предков(Талант)
+    ["Lightning Bolt"] = 188196, -- Молния    
     ["Flame Shock"] = 188389, -- Огненный шок
     ["Flametongue Weapon"] = 318038, -- Оружие языка пламени
     ["Spirit Walk"] = 58875, -- Поступь духа
     ["Capacitor Totem"] = 192058, -- Тотем конденсации
     ["Wind Shear"] = 57994, -- Пронзающий ветер(Талант)
-    ["Chain Lightning"] = 188443, -- Цепная молния
-    ["Lightning Shield"] = 192106, -- Щит молний
-    ["Водный щит"] = 52127,
-    ["Water Shield"] = 52127,
+    ["Chain Lightning"] = 188443, -- Цепная молния    
     ["Earth Elemental"] = 198103, -- Элементаль земли(талант)
     ["Lava Lash"] = 60103, -- Вскипание лавы
     ["Crash Lightning"] = 187874, -- Сокрушающая молния
@@ -214,7 +209,7 @@ local spell_ids = {
     ["Быстрина"] = 61295,
     ["Исцеляющий всплеск"] = 8004,
     ["Chain Heal"] = 1064,
-    ["Цепное исцеление"] = 1054,
+    ["Цепное исцеление"] = 1064,
     ["Благосклонность предков"] = 79206,
     
     ["Тотем исцеляющего потока"] = 5394,
@@ -224,12 +219,16 @@ local spell_ids = {
     ["Возрождение духа"] = 77130,
     
     ["Щит земли"] = 974,
+    ["Водный щит"] = 52127,
+    ["Water Shield"] = 52127,
+    ["Lightning Shield"] = 192106, -- Щит молний
     
     
     ["Astral Shift"] = 108271, -- Астральный сдвиг (Талант)
     ["Regrowth"] = 114052, 
     ["Перерождение"] = 114052,
     ["Наставления предков"] = 108281,
+    ["Ancestral Guidance"] = 108281 -- Наставление предков(Талант)
     
 
     
@@ -237,7 +236,7 @@ local spell_ids = {
 }
 
 local exeOnLoad = function()
-    print("Ротация загружена")
+    print("Restoration was loaded")
 
     _A.Interface:AddToggle({key = "AutoTarget", name = "Auto Target", text = "Automatically target enemy when target dies or does not exist", icon = "Interface\\Icons\\ability_hunter_snipershot",})
     _A.Interface:AddToggle({key = "AutoLoot", name = "Auto Loot", text = "Automatically loot units around you", icon = "Interface\\Icons\\inv_misc_gift_05"})
@@ -295,34 +294,34 @@ local Rotation = {
     ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     {"Wind Shear", "spell.ready && spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
-    {"Развеивание магии", "ui(purgekey_check) && spell.ready && spell.range && los && buff(Magic).type", "EnemyCombat"},
-    {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range && debuff(Magic).type", "roster"},
+    {"Развеивание магии", "ui(purgekey_check) && spell.ready && spell.range", "EnemyCombat"},
+    {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},
     
     {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
     {"Водный щит", "spell.ready && !player.buff"},
     {"Lightning Shield", "spell.ready && !player.buff"},
 
 
-    {"Перерождение", "ui(perkey_check) && spell.ready && count(3).hp <=ui(perkey_spin) && count(3).distance <=35", "roster"},
+    {"Перерождение", "ui(perkey_check) && roster.health <=ui(perkey_spin) && spell.ready && roster.distance <=35"},
 
    
-    {">Healing Stream Totem", "!exists || exists && distance>10", "totemID(3527)"},
+    --{">Healing Stream Totem", "!exists || exists && distance>10", "totemID(3527)"},
     
-    {"Наставления предков", "spell.ready && ui(predkkey_check) && lowest.health <= ui(predkkey_spin)"},
+    {"Наставления предков", "roster.health <=ui(predkkey_spin) && ui(predkkey_check) && spell.ready"},
    -- {"Тотем исцеляющего потока", "!exists && spell.ready && lowest.range <= 40 && ui(tothkey_check) && lowest.health <= ui(tothkey_spin)"},
-    {">Тотем исцеляющего потока", "lowest.health <= ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20 && ui(tothkey_check) ", "totemID(3527)"}, 
-    {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
+    {">Тотем исцеляющего потока", "ui(tothkey_check && lowest.health <= ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20", "totemID(3527)"}, 
+  --  {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
     {"Тотем целительного прилива", "spell.ready && lowest.range <=20 && ui(totthkey_check) && lowest.health <=ui(totthkey_spin)", "roster"},
-    {"Благосклонность предков", "spell.ready && ui(blagkey_check) && los && group.health >=ui(blagkey_spin)"},
+    {"Благосклонность предков", "spell.ready && ui(blagkey_check) && roster.health <=ui(blagkey_spin)"},
 
 
     {"Первозданная волна", "spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
     {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
     {"Волна исцеления", "health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
     --{"Цепное исцеление", "health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "roster"},
-    {"Цепное исцеление", "group.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "lowest"},
+    {"Цепное исцеление", "roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},
     
-    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && player.health <=ui(healkey_spin)", "lowest"},
+    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},
 
 
 
@@ -966,13 +965,7 @@ local Tank = {
    --{{
    --    {"Щит земли", "spell.ready && spell.range && !buff", "TANK"},
    -- }, "exists"},
-
-    
-        {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range && debuff(Magic)", "roster"},
-    
-    
 }
-
 
 local inCombat = {
 
@@ -998,8 +991,7 @@ local outOfCombat = {
 
 
     
-    --{"Перерождение", "ui(perkey_check) && count(3).hp<=ui(perkey_spin) && count(3).distance<=35", "roster"},
-
+    
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
 
     {"Lightning Shield", "spell.ready && player.mana>=35 && !player.buff(192106)"},
@@ -1013,7 +1005,7 @@ local outOfCombat = {
 }
 
 _A.CR:Add(264, {
-    name = "[RestorationGit(test)]",
+    name = "[Restoration]",
     load = function()
         print("Load function executed")
         exeOnLoad()
