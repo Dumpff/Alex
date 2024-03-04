@@ -306,7 +306,7 @@ local Rotation = {
     {"Перерождение", "ui(perkey_check) && spell.ready && count(3).hp <=ui(perkey_spin) && count(3).distance <=35", "roster"},
 
    
-    --{">Healing Stream Totem", "!exists || exists && distance>10", "totemID(3527)"},
+    {">Healing Stream Totem", "!exists || exists && distance>10", "totemID(3527)"},
     
     {"Наставления предков", "spell.ready && ui(predkkey_check) && lowest.health <= ui(predkkey_spin)"},
    -- {"Тотем исцеляющего потока", "!exists && spell.ready && lowest.range <= 40 && ui(tothkey_check) && lowest.health <= ui(tothkey_spin)"},
