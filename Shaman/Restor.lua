@@ -30,16 +30,16 @@ end
 
 
 local Bless_List = {
-    {key = "1", text = FlexIcon(318038, 16, 16, true)},
-    {key = "2", text = "Оружие неистовства ветра"},
-    {key = "3", text = "Оружие жизни земли"},
+    {key = "1", text = FlexIcon(318038, 16, 16, true)},                                        --Оружие языка пламени
+    {key = "2", text = FlexIcon(33757, 16, 16, true)},                                            --Оружие неистовства ветра  
+    {key = "3", text = FlexIcon(382021, 16, 16, true)},                                        --Оружие жизни земли
     {key = "0", text = "Отключено"},
 }
 
 local Bless = {
     {"318038", "ui(blesstype)=1 && !W_Enchant(5400) && spell.ready"},                            --Оружие языка пламени
-    {"Оружие неистовства ветра", "ui(blesstype)=2 && !W_Enchant(5401) && spell.ready"},    
-    {"Оружие жизни земли", "ui(blesstype)=3 && !W_Enchant(6498) && spell.ready"},    
+    {"33757", "ui(blesstype)=2 && !W_Enchant(5401) && spell.ready"},                             --Оружие неистовства ветра  
+    {"382021", "ui(blesstype)=3 && !W_Enchant(6498) && spell.ready"},                            --Оружие жизни земли
 }
 
 _A.DSL:Register("W_Enchant", function(_, id)
@@ -116,50 +116,54 @@ local GUI = {
         {type = "texture", texture = "Interface\\Addons\\Apofis\\Core\\media\\MyLogo.tga", width = 420, height = 200, offset = 190, y= -90, align = "center"},
         
         ---Лечебные скилы
-        {type = "header", text = "Лечебные скилы", align = "center", size = "16"},
+        {type = "header", text = "Healing skills", align = "center", size = "16"},
         {type = "spacer", size = 10},
-        {type = "dropdown", width = 180, size = 14, text = "Зачаровать оружие", key = "blesstype", list = Bless_List, default = "0"},
+        {type = "dropdown", width = 180, size = 14, text = "Enchant mainhand", key = "blesstype", list = Bless_List, default = "0"},
+        {type = "spacer", size = 7},
+        {type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
         {type = "spacer", size = 7},
         {type = "checkspin", key = "HWkey", size = 14, text = FlexIcon(77472, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         --{type = "checkspin", key = "HWkey", size = 14, text = _A.Core:GetSpellIcon(77472, 16, 16).."Волна исцеления", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "PWkey", size = 14, text = _A.Core:GetSpellIcon(375982, 16, 16).."Первозданная волна", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "PWkey", size = 14, text = FlexIcon(375982, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "Bkey", size = 14, text = _A.Core:GetSpellIcon(61295, 16, 16).."Быстрина", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "Bkey", size = 14, text = FlexIcon(61295, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "healkey", size = 14, text = _A.Core:GetSpellIcon(8004, 16, 16).."Исцеляющий всплеск", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "healkey", size = 14, text = FlexIcon(8004, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "cepkey", size = 14, text = _A.Core:GetSpellIcon(1064, 16, 16).."Цепное исцеление", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "cepkey", size = 14, text = FlexIcon(1064, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "blagkey", size = 14, text = _A.Core:GetSpellIcon(79206, 16, 16).."Благосклонность предков", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "blagkey", size = 14, text = FlexIcon(79206, 16, 16, true), default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
 
         ---- Тотемы
 
-        {type = "header", text = "Тотемы", align = "center", size = "16"},
+        {type = "header", text = "Totems", align = "center", size = "16"},
         {type = "spacer", size = 10},
-        {type = "checkspin", key = "tothkey", size = 14, text = _A.Core:GetSpellIcon(5394, 16, 16).."Тотоем исцеляющего потока", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "tothkey", size = 14, text = FlexIcon(5394, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "totthkey", size = 14, text = _A.Core:GetSpellIcon(108280, 16, 16).."Тотоем целительного прилива", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "totthkey", size = 14, text = FlexIcon(108280, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
 
         ---- Диспелы
 
-        {type = "header", text = "Диспелы", align = "center", size = "16"},
+        {type = "header", text = "Dispels", align = "center", size = "16"},
         {type = "spacer", size = 10},
-        {key = "purgekey", type = "checkbox", size = 14, text = _A.Core:GetSpellIcon(370, 16, 16).."Развеивание магии", default = true, align = "left", check = true,}, 
+        {key = "purgekey", type = "checkbox", size = 14, text = FlexIcon(370, 16, 16, true), default = true, align = "left", check = true,}, 
         {type = "spacer", size = 7},
-        {key = "vozkey", type = "checkbox", size = 14, text = _A.Core:GetSpellIcon(77130, 16, 16).."Возрождение духа", default = true, align = "left", check = true,}, 
+        {key = "vozkey", type = "checkbox", size = 14, text = FlexIcon(77130, 16, 16, true), default = true, align = "left", check = true,}, 
         {type = "spacer", size = 7},
         
         
         
-        {key = "Astral Shift", type = "checkspin", size = 14, text = _A.Core:GetSpellIcon(108271, 16, 16).."Астральный сдвиг", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60},
-        {type = "spacer"},
+        
 
             ---- Defensive Ally Abilities 
 
         {type = "header", text = "Массовые защитные скилы", align = "center", size = "16", offset = 15},
+        {type = "spacer", size = 10},
+        {key = "Astral Shift", type = "checkspin", size = 14, text = FlexIcon(108271, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60},
+        {type = "spacer"},
         {type = "checkspin", key = "predkkey", size = 14, text = _A.Core:GetSpellIcon(108281, 16, 16).."Наставления предков", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
         {type = "checkspin", key = "perkey", size = 14, text = _A.Core:GetSpellIcon(114052, 16, 16).."Перерождение", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
