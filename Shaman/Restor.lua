@@ -257,13 +257,13 @@ local cache = {
 }
 local SelfProtect = {
     {"Astral Shift", "ui(Astral Shift_check) && player.health <= ui(Astral Shift_spin)", "player"},
-    {"&Spirit Walk", "ui(Spirit Walk_check) && player.state(root)", "player"},
+   -- {"&Spirit Walk", "ui(Spirit Walk_check) && player.state(root)", "player"},
    -- {"Исцеляющий всплеск", "spell.ready && ui(healkey_check) && player.health <=ui(healkey_spin)", "player"},
-    {"Элементаль огня", "ui(Fire Elemental_check) && area_range(8).combatEnemies >=ui(Fire Elemental_spin)", "player"},
+   -- {"Элементаль огня", "ui(Fire Elemental_check) && area_range(8).combatEnemies >=ui(Fire Elemental_spin)", "player"},
 }
 local SelfProtectAlly = {
-    {"&Ancestral Guidance", "ui(Ancestral GuidanceTank_check) && lowest.health <= ui(Ancestral GuidanceTank_spin) && lowest.hasrole(TANK)", "lowest"},
-    {"&Earth Elemental", "ui(Earth ElementalTank_check) && lowest.health <= ui(Earth ElementalTank_spin) && lowest.hasrole(TANK)", "lowest"},
+   -- {"&Ancestral Guidance", "ui(Ancestral GuidanceTank_check) && lowest.health <= ui(Ancestral GuidanceTank_spin) && lowest.hasrole(TANK)", "lowest"},
+   -- {"&Earth Elemental", "ui(Earth ElementalTank_check) && lowest.health <= ui(Earth ElementalTank_spin) && lowest.hasrole(TANK)", "lowest"},
    }
 
 local Rotation = {
@@ -271,22 +271,20 @@ local Rotation = {
     {"Развеивание магии", "ui(purgekey_check) && spell.ready && spell.range", "EnemyCombat"},
     {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},    
     {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
-    {"Водный щит", "spell.ready && !player.buff"},
-    --{"Water Shield", "spell.ready && !player.buff"},
+    {"Водный щит", "spell.ready && !player.buff"},    
     {"Lightning Shield", "spell.ready && !player.buff"},
     {"Перерождение", "ui(perkey_check) && roster.health <=ui(perkey_spin) && spell.ready && roster.distance <=35"},    
     {"Наставления предков", "roster.health <=ui(predkkey_spin) && ui(predkkey_check) && spell.ready"},
-   -- {"Тотем исцеляющего потока", "!exists && spell.ready && lowest.range <= 40 && ui(tothkey_check) && lowest.health <= ui(tothkey_spin)"},
+   --- {"Тотем исцеляющего потока", "!exists && spell.ready && lowest.range <= 40 && ui(tothkey_check) && lowest.health <= ui(tothkey_spin)"},
     {">Тотем исцеляющего потока", "ui(tothkey_check && lowest.health <= ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20", "totemID(3527)"}, 
-  --  {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
+   --- {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
     {"Тотем целительного прилива", "spell.ready && lowest.range <=20 && ui(totthkey_check) && lowest.health <=ui(totthkey_spin)", "roster"},
     {"Благосклонность предков", "spell.ready && ui(blagkey_check) && roster.health <=ui(blagkey_spin)"},
-    {"Первозданная волна", "spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
-    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},  
-   -- {"Torrent", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
-    {"Волна исцеления", "health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
+    {"Первозданная волна", "ui(PWkey_check) && spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
+    {"Быстрина", "ui(Bkey_check) && health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},   
+    {"Волна исцеления", "ui(HWkey_check) && health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
     --{"Цепное исцеление", "health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "roster"},
-    {"Цепное исцеление", "roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
+    {"Цепное исцеление", "ui(cepkey_check) && roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
     {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},   
 }
 
