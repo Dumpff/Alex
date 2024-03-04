@@ -994,7 +994,7 @@ local inCombat = {
 }
 local outOfCombat = {
 
-    {rotation},
+    {Rotation},
 
 
     
