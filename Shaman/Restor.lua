@@ -27,11 +27,9 @@ end
 
 ------------------------
 
-
-
 local Bless_List = {
     {key = "1", text = FlexIcon(318038, 16, 16, true)},                                        --Оружие языка пламени
-    {key = "2", text = FlexIcon(33757, 16, 16, true)},                                            --Оружие неистовства ветра  
+    {key = "2", text = FlexIcon(33757, 16, 16, true)},                                         --Оружие неистовства ветра  
     {key = "3", text = FlexIcon(382021, 16, 16, true)},                                        --Оружие жизни земли
     {key = "0", text = "Отключено"},
 }
@@ -53,8 +51,6 @@ end)
 --local windfurry = W_Enchant(5401)
 --local Flametongue = W_Enchant(5400)
 --local Earthliving = W_Enchant(6498)
-
-
 
 local Roles = {
     ['TANK'] = 1.2,
@@ -78,10 +74,6 @@ _A.FakeUnits:Add('tank', function(num)
     end
     return tempTable[num] and tempTable[num].key
 end)
-
-
-
-
 
 local tanksIds = {
     [250] = "DK Blood",
@@ -108,14 +100,11 @@ _A.FakeUnits:Add('realTank', function(num)
     return tempTable[num] and tempTable[num].key
 end)
 
-
-
-
-
 local GUI = {        
         --{type = "texture", texture = "Interface\\Addons\\Apofis\\Core\\media\\MyLogo.tga", width = 420, height = 200, offset = 190, y= -90, align = "center"},
         
         ---Лечебные скилы
+    
         {type = "ruler"},
         {type = "header", text = "Healing skills", align = "center", size = "16"},
         {type = "ruler"},
@@ -125,7 +114,6 @@ local GUI = {
        -- {type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
        -- {type = "spacer", size = 7},
         {type = "checkspin", key = "HWkey", size = 14, text = FlexIcon(77472, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
-        --{type = "checkspin", key = "HWkey", size = 14, text = _A.Core:GetSpellIcon(77472, 16, 16).."Волна исцеления", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
         {type = "checkspin", key = "PWkey", size = 14, text = FlexIcon(375982, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
@@ -139,6 +127,7 @@ local GUI = {
         {type = "spacer", size = 7},
 
         ---- Тотемы
+    
         {type = "ruler"},
         {type = "header", text = "Totems", align = "center", size = "16"},
         {type = "ruler"},
@@ -147,7 +136,7 @@ local GUI = {
         {type = "spacer", size = 7},
         {type = "checkspin", key = "totthkey", size = 14, text = FlexIcon(108280, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-
+    
         ---- Диспелы
     
         {type = "ruler"},
@@ -158,26 +147,19 @@ local GUI = {
         {type = "spacer", size = 7},
         {key = "vozkey", type = "checkbox", size = 14, text = FlexIcon(77130, 16, 16, true), default = true, align = "left", check = true,}, 
         {type = "spacer", size = 7},
-        
-        
-        
-        
-
+    
             ---- Defensive Ally Abilities 
+    
         {type = "ruler"},
-        {type = "header", text = "Массовые защитные скилы", align = "center", size = "16", offset = 15},
+        {type = "header", text = "Defense skills", align = "center", size = "16", offset = 15},
         {type = "ruler"},
         {type = "spacer", size = 10},
         {key = "Astral Shift", type = "checkspin", size = 14, text = FlexIcon(108271, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60},
         {type = "spacer"},
-        {type = "checkspin", key = "predkkey", size = 14, text = _A.Core:GetSpellIcon(108281, 16, 16).."Наставления предков", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "predkkey", size = 14, text = FlexIcon(108281, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "perkey", size = 14, text = _A.Core:GetSpellIcon(114052, 16, 16).."Перерождение", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "perkey", size = 14, text = FlexIcon(114052, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-       -- {key = "Earth Elemental", type = "checkspin", text = "Элементаль земли", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 20},
-       -- {type = "spacer", size = 5},
-       -- {key = "Fire Elemental", type = "checkspin", size = 14, text = _A.Core:GetSpellIcon(198067, 16, 16).."Элементаль огня", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 20},
-       -- {type = "spacer", size = 5},
 }
 local spell_ids = {
     ["Bloodlust"] = 2825, -- Жажда крови   
@@ -229,11 +211,7 @@ local spell_ids = {
     ["Перерождение"] = 114052,
     ["Regrowth"] = 114052, 
     ["Наставления предков"] = 108281,
-    ["Ancestral Guidance"] = 108281 -- Наставление предков(Талант)
-    
-
-    
-    
+    ["Ancestral Guidance"] = 108281, -- Наставление предков(Талант)
 }
 
 local exeOnLoad = function()
@@ -246,22 +224,15 @@ local exeOnLoad = function()
     _A.DSL:Register({'face', 'lookAt'}, function(unit) -- 'face' and 'lookAt' do the same
         _A.FaceDirection(unit, true)
         return true
-    end) 
-
-
-    
+    end)
 end
-
 
 local exeOnUnload = function()
-
 end
 
-local cache = {      
-
+local cache = {
     aoe = false,
   }
-
 
   local RotationCache = {
   {function()
@@ -287,8 +258,7 @@ local SelfProtect = {
 local SelfProtectAlly = {
     {"&Ancestral Guidance", "ui(Ancestral GuidanceTank_check) && lowest.health <= ui(Ancestral GuidanceTank_spin) && lowest.hasrole(TANK)", "lowest"},
     {"&Earth Elemental", "ui(Earth ElementalTank_check) && lowest.health <= ui(Earth ElementalTank_spin) && lowest.hasrole(TANK)", "lowest"},
-   
-}
+   }
 
 local Rotation = {
     {"Wind Shear", "spell.ready && spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
@@ -319,18 +289,8 @@ local Interrupts = {
 local Cooldowns = {
 }
 
-local Tank = {
-    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
-   -- {"Щит земли", "spell.ready && exists && spell.range && !buff", "Tank"},
-    {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range && debuff(Magic)", "roster"},
-   --{{
-   --    {"Щит земли", "spell.ready && spell.range && !buff", "TANK"},
-   -- }, "exists"},
-}
-
 local inCombat = {
-    {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет
-    {Tank},
+    {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
     {Bless},    
     {SelfProtectAlly},
     {SelfProtect},
@@ -339,9 +299,9 @@ local inCombat = {
 }
 local outOfCombat = {
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
+    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
    -- {"Lightning Shield", "spell.ready && player.mana>=35 && !player.buff(192106)"},    
-    {Rotation},
-    {Tank},        
+    {Rotation},          
     {Bless},    
 }
 
