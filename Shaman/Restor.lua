@@ -31,7 +31,7 @@ local Bless_List = {
     {key = "1", text = FlexIcon(318038, 16, 16, true)},                                        --Оружие языка пламени
     {key = "2", text = FlexIcon(33757, 16, 16, true)},                                         --Оружие неистовства ветра  
     {key = "3", text = FlexIcon(382021, 16, 16, true)},                                        --Оружие жизни земли
-    {key = "0", text = "Отключено"},
+    {key = "0", text = "Disable"},
 }
 
 local Bless = {
