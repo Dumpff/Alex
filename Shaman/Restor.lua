@@ -30,14 +30,14 @@ end
 
 
 local Bless_List = {
-    {key = "1", text = FlexIcon(5400, 16, 16, true)},
+    {key = "1", text = FlexIcon(318038, 16, 16, true)},
     {key = "2", text = "Оружие неистовства ветра"},
     {key = "3", text = "Оружие жизни земли"},
     {key = "0", text = "Отключено"},
 }
 
 local Bless = {
-    {"5400", "ui(blesstype)=1 && !W_Enchant(5400) && spell.ready"},                            --Оружие языка пламени
+    {"318038", "ui(blesstype)=1 && !W_Enchant(5400) && spell.ready"},                            --Оружие языка пламени
     {"Оружие неистовства ветра", "ui(blesstype)=2 && !W_Enchant(5401) && spell.ready"},    
     {"Оружие жизни земли", "ui(blesstype)=3 && !W_Enchant(6498) && spell.ready"},    
 }
