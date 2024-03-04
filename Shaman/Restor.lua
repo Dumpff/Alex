@@ -3,7 +3,7 @@ local _G = _A._G
 local U = _A.Cache.Utils
 local DSL = function(api) return _A.DSL:Get(api) end
 
---Для иконок заклинаний и предметов--
+-------------------------------------Для иконок заклинаний и предметов--------------------------------------
 
 local function FlexItem(itemID, width, height, bool) -- bool true или false, true - с именем, false - просто иконка.
 local itemIcon = GetItemIcon(itemID) 
@@ -25,20 +25,8 @@ local function FlexIcon(SpellID, width, height, bool) -- bool true или false,
     return ico
 end
 
-------------------------
-
-local Bless_List = {
-    {key = "1", text = FlexIcon(318038, 16, 16, true)},                                        --Оружие языка пламени
-    {key = "2", text = FlexIcon(33757, 16, 16, true)},                                         --Оружие неистовства ветра  
-    {key = "3", text = FlexIcon(382021, 16, 16, true)},                                        --Оружие жизни земли
-    {key = "0", text = "Disable"},
-}
-
-local Bless = {
-    {"318038", "ui(blesstype)=1 && !W_Enchant(5400) && spell.ready"},                            --Оружие языка пламени
-    {"33757", "ui(blesstype)=2 && !W_Enchant(5401) && spell.ready"},                             --Оружие неистовства ветра  
-    {"382021", "ui(blesstype)=3 && !W_Enchant(6498) && spell.ready"},                            --Оружие жизни земли
-}
+-------------------------------------------------------------------------------------------------------------
+------------------------------------------------Инчант оружки------------------------------------------------
 
 _A.DSL:Register("W_Enchant", function(_, id)
     id = tonumber(id)
@@ -52,6 +40,20 @@ end)
 --local Flametongue = W_Enchant(5400)
 --local Earthliving = W_Enchant(6498)
 
+local Bless_List = {
+    {key = "1", text = FlexIcon(318038, 16, 16, true)},                                        --Оружие языка пламени
+    {key = "2", text = FlexIcon(33757, 16, 16, true)},                                         --Оружие неистовства ветра  
+    {key = "3", text = FlexIcon(382021, 16, 16, true)},                                        --Оружие жизни земли
+    {key = "0", text = "Disable"},
+}
+
+local Bless = {
+    {"318038", "ui(blesstype)=1 && !W_Enchant(5400) && spell.ready"},                            --Оружие языка пламени
+    {"33757", "ui(blesstype)=2 && !W_Enchant(5401) && spell.ready"},                             --Оружие неистовства ветра  
+    {"382021", "ui(blesstype)=3 && !W_Enchant(6498) && spell.ready"},                            --Оружие жизни земли
+}
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------Роль Танка--------------------------------------------------------------
 local Roles = {
     ['TANK'] = 1.2,
     ['HEALER'] = 1,
@@ -100,6 +102,8 @@ _A.FakeUnits:Add('realTank', function(num)
     return tempTable[num] and tempTable[num].key
 end)
 
+------------------------------------------------------------------------------------------------------------------------------------------------
+
 local GUI = {        
         --{type = "texture", texture = "Interface\\Addons\\Apofis\\Core\\media\\MyLogo.tga", width = 420, height = 200, offset = 190, y= -90, align = "center"},
         
@@ -111,8 +115,8 @@ local GUI = {
         {type = "spacer", size = 10},
         {type = "dropdown", width = 180, size = 14, text = "Enchant mainhand", key = "blesstype", list = Bless_List, default = "0"},
         {type = "spacer", size = 7},
-       -- {type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
-       -- {type = "spacer", size = 7},
+        {type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
+        {type = "spacer", size = 7},
         {type = "checkspin", key = "HWkey", size = 14, text = FlexIcon(77472, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
         {type = "checkspin", key = "PWkey", size = 14, text = FlexIcon(375982, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
