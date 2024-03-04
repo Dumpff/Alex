@@ -117,7 +117,7 @@ local GUI = {
         
         ---Лечебные скилы
         {type = "header", text = "Healing skills", align = "center", size = "16"},
-        {type = "separator"},
+        {type = "ruler"},
         {type = "spacer", size = 10},
         {type = "dropdown", width = 180, size = 14, text = "Enchant mainhand", key = "blesstype", list = Bless_List, default = "0"},
         {type = "spacer", size = 7},
