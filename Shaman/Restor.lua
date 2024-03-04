@@ -115,8 +115,8 @@ local GUI = {
         {type = "spacer", size = 10},
         {type = "dropdown", width = 180, size = 14, text = "Enchant mainhand", key = "blesstype", list = Bless_List, default = "0"},
         {type = "spacer", size = 7},
-        {type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
-        {type = "spacer", size = 7},
+        --{type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
+        --{type = "spacer", size = 7},
         {type = "checkspin", key = "HWkey", size = 14, text = FlexIcon(77472, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
         {type = "checkspin", key = "PWkey", size = 14, text = FlexIcon(375982, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
@@ -305,14 +305,14 @@ local inCombat = {
 }
 local outOfCombat = {
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
-    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
-   -- {"Lightning Shield", "spell.ready && player.mana>=35 && !player.buff(192106)"},    
-    {Rotation},          
+    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},     
+    {Rotation}, 
+    {SelfProtect},         
     {Bless},    
 }
 
 _A.CR:Add(264, {
-    name = "[Restoration]",
+    name = "[RestorationGit]",
     load = function()
         print("Load function executed")
         exeOnLoad()
