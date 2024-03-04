@@ -3,6 +3,32 @@ local _G = _A._G
 local U = _A.Cache.Utils
 local DSL = function(api) return _A.DSL:Get(api) end
 
+--Для иконок заклинаний и предметов--
+
+local function FlexItem(itemID, width, height, bool) -- bool true или false, true - с именем, false - просто иконка.
+local itemIcon = GetItemIcon(itemID) 
+local var = " \124T"..(itemIcon)..":"..(height or 25)..":"..(width or 25).."\124t "
+if bool then
+    return var .. GetItemInfo(itemID)
+else
+    return var
+end
+end
+
+local function FlexIcon(SpellID, width, height, bool) -- bool true или false, true - с именем, false - просто иконка.
+    local var = " \124T" .. (select(3, GetSpellInfo(SpellID)) or select(3, GetSpellInfo(24720))) .. ":" .. (height or 25) .. ":" .. (width or 25) .. "\124t ";
+    if bool then
+        ico = var .. GetSpellInfo(SpellID)
+    else
+        ico = var
+    end
+    return ico
+end
+
+------------------------
+
+
+
 local Bless_List = {
     {key = "1", text = "Оружие языка пламяни"},
     {key = "2", text = "Оружие неистовства ветра"},
@@ -94,7 +120,8 @@ local GUI = {
         {type = "spacer", size = 10},
         {type = "dropdown", width = 180, size = 14, text = "Зачаровать оружие", key = "blesstype", list = Bless_List, default = "0"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "HWkey", size = 14, text = _A.Core:GetSpellIcon(77472, 16, 16).."Волна исцеления", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "HWkey", size = 14, text = FlexIcon(77472, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        --{type = "checkspin", key = "HWkey", size = 14, text = _A.Core:GetSpellIcon(77472, 16, 16).."Волна исцеления", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
         {type = "checkspin", key = "PWkey", size = 14, text = _A.Core:GetSpellIcon(375982, 16, 16).."Первозданная волна", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
