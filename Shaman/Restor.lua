@@ -182,7 +182,7 @@ local GUI = {
 }
 local spell_ids = {
     ["Bloodlust"] = 2825, -- Жажда крови
-    ["Astral Shift"] = 108271, -- Астральный сдвиг (Талант)
+   
     ["Lava Burst"] = 51505, -- Выброс лавы (талант)
     ["Frost Shock"] = 196840, -- Ледяной шок(талант)
     ["Thunderstorm"] = 51490, -- гром и молния (талант)
@@ -205,14 +205,35 @@ local spell_ids = {
     ["Ice Strike"] = 342240, -- Ледяной клинок
     ["Stormstrike"] = 17364, -- Удар бури
     ["Windfury Weapon"] = 33757, -- Оружие неистовства ветра
-    ["Primordial Wave"] = 375982, -- Первозданная волна
     ["Sundering"] = 197214, -- Раскол 
-    ["Щит земли"] = 974,
-    ["Возрождение духа"] = 77130,
-    ["Развеивание магии"] = 370,
+    
+
+    ["Волна исцеления"] = 77472,
+    ["Первозданная волна"] = 375982,    
+    ["Primordial Wave"] = 375982, -- Первозданная волна
+    ["Быстрина"] = 61295,
+    ["Исцеляющий всплеск"] = 8004,
     ["Chain Heal"] = 1064,
-    ["Regrowth"] = 114052,   
+    ["Цепное исцеление"] = 1054,
+    ["Благосклонность предков"] = 79206,
+    
     ["Тотем исцеляющего потока"] = 5394,
+    ["Тотем целительного прилива"] = 108280
+    
+    ["Развеивание магии"] = 370,
+    ["Возрождение духа"] = 77130,
+    
+    ["Щит земли"] = 974,
+    
+    
+    ["Astral Shift"] = 108271, -- Астральный сдвиг (Талант)
+    ["Regrowth"] = 114052, 
+    ["Перерождение"] = 114052,
+    ["Наставления предков"] = 108281
+    
+
+    
+    
 }
 
 local exeOnLoad = function()
@@ -292,20 +313,26 @@ local Rotation = {
     {">Тотем исцеляющего потока", "lowest.health <= ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20 && ui(tothkey_check) ", "totemID(3527)"}, 
    -- {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
     {"Тотем целительного прилива", "spell.ready && lowest.range <=20 && ui(totthkey_check) && lowest.health <=ui(totthkey_spin)", "roster"},
-    {"Благосклонность предков", "spell.ready && ui(blagkey_check) && los && area_range(8).combatEnemies >=ui(blagkey_spin)"},
+    {"Благосклонность предков", "spell.ready && ui(blagkey_check) && los && group.health >=ui(blagkey_spin)"},
 
 
-
-
---    {function ()
---     local totem = Object("totemID(3527)") --replace the id with your totem ID
---     if not totem 
---     or totem:distance() > 35
---     then
---     Player:Cast("Тотем исцеляющего потока")
---     end
---    end,},
+    {"Первозданная волна", "spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
+    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
+    {"Волна исцеления", "health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
+    --{"Цепное исцеление", "health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "roster"},
+    {"Цепное исцеление", "group.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "lowest"},
     
+    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && player.health <=ui(healkey_spin)", "lowest"},
+
+
+
+
+   -- {"Цепное исцеление", "(cepkey_check) && count(3).Hp<=(cepkey_spin) && count(3).distance<=35 && !moving", "roster"},
+
+
+
+
+        
 
     -----------------------------Наставление предков-----------------------------
 
@@ -434,18 +461,6 @@ local Rotation = {
 --         end
 --     end    
 --  end,},
-
-    {"Первозданная волна", "spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
-    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
-    {"Волна исцеления", "health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
-    {"Цепное исцеление", "health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "roster"},
-    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && player.health <=ui(healkey_spin)", "lowest"},
-
-
-
-
-   -- {"Цепное исцеление", "(cepkey_check) && count(3).Hp<=(cepkey_spin) && count(3).distance<=35 && !moving", "roster"},
-
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -979,6 +994,8 @@ local inCombat = {
 }
 local outOfCombat = {
 
+    {rotation},
+
 
     
     --{"Перерождение", "ui(perkey_check) && count(3).hp<=ui(perkey_spin) && count(3).distance<=35", "roster"},
@@ -996,13 +1013,13 @@ local outOfCombat = {
 }
 
 _A.CR:Add(264, {
-    name = "[Restorr(test)]",
+    name = "[RestorationGit(test)]",
     load = function()
         print("Load function executed")
         exeOnLoad()
     end,
     gui = GUI,
-    gui_st = {title="Исцеление by Алексей", color="1EFF0C", width="400", height="500"},
+    gui_st = {title="Healing by Alex", color="1EFF0C", width="400", height="500"},
     ids = spell_ids,
     ic = inCombat,
     ooc = outOfCombat,
