@@ -291,15 +291,14 @@ local SelfProtectAlly = {
 local Rotation = {
     {"Wind Shear", "spell.ready && spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
     {"Развеивание магии", "ui(purgekey_check) && spell.ready && spell.range", "EnemyCombat"},
-    {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},    
+    {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},  
     
     {"Водный щит", "spell.ready && !player.buff"},    
     {"Lightning Shield", "spell.ready && !player.buff"},
     {"Перерождение", "ui(perkey_check) && roster.health <=ui(perkey_spin) && spell.ready && roster.distance <=35"},    
     {"Наставления предков", "roster.health <=ui(predkkey_spin) && ui(predkkey_check) && spell.ready"},    
-    -------{">Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health <=ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20", "totemID(3527)"}, 
-    --{"Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health <=ui(tothkey_spin) && !ObjExist(3527) && spell.ready && lowest.range <=20", "roster"},
-    {">Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health<=ui(tothkey_spin) && {!exists || exists && distance>10 && lowest.range<=20}", "totemID(3527)"},
+    {"Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health <=ui(tothkey_spin) && !ObjExist(3527) && spell.ready && lowest.range <=20", "roster"},
+    --{">Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health<=ui(tothkey_spin) && {!exists || exists && distance>10 && lowest.range<=20}", "totemID(3527)"},
     --{"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
     {"Тотем целительного прилива", "spell.ready && lowest.range<= 20 && ui(totthkey_check) && lowest.health<=ui(totthkey_spin)", "roster"},
     {"Благосклонность предков", "spell.ready && ui(blagkey_check) && roster.health <=ui(blagkey_spin)"},
@@ -319,6 +318,7 @@ local Cooldowns = {
 local Tank = {
     {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
     {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
+    {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "tank"},
 }
 local inCombat = {
     {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
@@ -329,6 +329,9 @@ local inCombat = {
     {Rotation},
 }
 local outOfCombat = {
+    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
+    {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
+    {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "tank"},
     {Tank},
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
          
