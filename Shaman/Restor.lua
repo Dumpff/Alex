@@ -285,12 +285,7 @@ local Rotation = {
     {"Волна исцеления", "ui(HWkey_check) && health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
     --{"Цепное исцеление", "health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "roster"},
     {"Цепное исцеление", "ui(cepkey_check) && roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
-    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},
-    {function() 
-local exists = _A.DSL:Get("NPC ID")(3527); 
-print(exists)
-end},
-    
+    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},    
 }
 
 local Interrupts = {    
