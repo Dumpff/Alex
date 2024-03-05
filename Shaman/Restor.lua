@@ -276,22 +276,17 @@ local Rotation = {
     {"Перерождение", "ui(perkey_check) && roster.health <=ui(perkey_spin) && spell.ready && roster.distance <=35"},    
     {"Наставления предков", "roster.health <=ui(predkkey_spin) && ui(predkkey_check) && spell.ready"},
    --- {"Тотем исцеляющего потока", "!exists && spell.ready && lowest.range <= 40 && ui(tothkey_check) && lowest.health <= ui(tothkey_spin)"},
-    {">Тотем исцеляющего потока", "ui(tothkey_check && lowest.health <= ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20", "totemID(3527)"}, 
+   --------- {">Тотем исцеляющего потока", "ui(tothkey_check && lowest.health <= ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20", "totemID(3527)"}, 
    --- {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
-    {"Тотем целительного прилива", "spell.ready && lowest.range <=20 && ui(totthkey_check) && lowest.health <=ui(totthkey_spin)", "roster"},
+   --------- {"Тотем целительного прилива", "spell.ready && lowest.range <=20 && ui(totthkey_check) && lowest.health <=ui(totthkey_spin)", "roster"},
     {"Благосклонность предков", "spell.ready && ui(blagkey_check) && roster.health <=ui(blagkey_spin)"},
     {"Первозданная волна", "ui(PWkey_check) && spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
     {"Быстрина", "ui(Bkey_check) && health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},   
     {"Волна исцеления", "ui(HWkey_check) && health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
     --{"Цепное исцеление", "health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "roster"},
-    -------{"Цепное исцеление", "ui(cepkey_check) && roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
+    {"Цепное исцеление", "ui(cepkey_check) && roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
     {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},
-
-    function()
-  if _A.DB:Get("ui(cepkey_check)") and _A.DB:Get("roster.health") <= _A.DB:Get("ui(cepkey_spin)") and _A.DSL:Get("!moving")(_, spell_ids["Цепное исцеление"]) and _A.DSL:Get("spell.ready")(_, spell_ids["Цепное исцеление"]) and _A.DSL:Get("spell.range")(_, spell_ids["Цепное исцеление"]) then
-    _A.CastSpellByID(spell_ids["Цепное исцеление"], "lowest")
-  end
-end
+    
 }
 
 local Interrupts = {    
