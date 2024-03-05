@@ -292,7 +292,7 @@ local Rotation = {
     {"Wind Shear", "spell.ready && spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
     {"Развеивание магии", "ui(purgekey_check) && spell.ready && spell.range", "EnemyCombat"},
     {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},    
-    {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
+    
     {"Водный щит", "spell.ready && !player.buff"},    
     {"Lightning Shield", "spell.ready && !player.buff"},
     {"Перерождение", "ui(perkey_check) && roster.health <=ui(perkey_spin) && spell.ready && roster.distance <=35"},    
@@ -315,7 +315,10 @@ local Interrupts = {
 }
 local Cooldowns = {
 }
-
+local Tabk = {
+    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
+    {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
+}
 local inCombat = {
     {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
     {Bless},    
@@ -325,8 +328,9 @@ local inCombat = {
     {Rotation},
 }
 local outOfCombat = {
+    {Tank},
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
-    {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},     
+         
    -- {Rotation}, 
     {SelfProtect},         
     {Bless},    
