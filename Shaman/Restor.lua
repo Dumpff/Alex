@@ -289,10 +289,6 @@ local SelfProtectAlly = {
    }
 
 local Rotation = {
-    {function() 
-    local exists = _A.DSL:Get("ID")(3527); 
-    print(exists)
-    end},
     {"Wind Shear", "spell.ready && spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
     {"Развеивание магии", "ui(purgekey_check) && spell.ready && spell.range", "EnemyCombat"},
     {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},    
@@ -303,7 +299,8 @@ local Rotation = {
     {"Наставления предков", "roster.health <=ui(predkkey_spin) && ui(predkkey_check) && spell.ready"},
     --{"Тотем исцеляющего потока", "!exists && spell.ready && lowest.range <= 40 && ui(tothkey_check) && lowest.health <= ui(tothkey_spin)"},
     -------{">Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health <=ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20", "totemID(3527)"}, 
-    {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
+    {"Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health <=ui(tothkey_spin) && !ObjExist(3527) && distance > 10 && spell.ready && lowest.range <=20", "roster"},
+    --{"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
     {"Тотем целительного прилива", "spell.ready && lowest.range<= 20 && ui(totthkey_check) && lowest.health<=ui(totthkey_spin)", "roster"},
     {"Благосклонность предков", "spell.ready && ui(blagkey_check) && roster.health <=ui(blagkey_spin)"},
     {"Первозданная волна", "ui(PWkey_check) && spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
