@@ -3,6 +3,28 @@ local _G = _A._G
 local U = _A.Cache.Utils
 local DSL = function(api) return _A.DSL:Get(api) end
 
+-------------------------------------Поиск по таблице--------------------------------------
+
+local function find_unit(id)
+    local c_table = _A.OM:Get('Friendly')
+        for _, data in pairs(c_table) do
+            if _A.ObjectExists(data.key) and data.id == id then
+                return true
+            end
+        end
+    return false
+end
+
+_A.DSL:Register("ObjExist", function(_, id)
+    ids = tonumber(id)
+    if not ids then return end
+    local found = find_unit(ids);
+    if found then
+        return true    
+    end
+end)
+
+------------------------------------------------------------------------------------------------------------
 -------------------------------------Для иконок заклинаний и предметов--------------------------------------
 
 local function FlexItem(itemID, width, height, bool) -- bool true или false, true - с именем, false - просто иконка.
