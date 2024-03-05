@@ -287,7 +287,7 @@ local Rotation = {
     {"Цепное исцеление", "ui(cepkey_check) && roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
     {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},
     {function() 
-local exists = _A.DSL:Get("totemID")(3527); 
+local exists = _A.DSL:Get("NPCID")(3527); 
 print(exists)
 end},
     
