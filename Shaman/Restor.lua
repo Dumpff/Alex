@@ -315,7 +315,7 @@ local Interrupts = {
 }
 local Cooldowns = {
 }
-local Tabk = {
+local Tank = {
     {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
     {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "realTank"},
 }
