@@ -321,6 +321,7 @@ local Tank = {
     {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "tank"},
 }
 local inCombat = {
+    {"Щит земли", "!IsSolo && spell.ready && spell.range && !buff", "realTank"},
     {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
     {Bless},    
     {SelfProtectAlly},
@@ -331,7 +332,7 @@ local inCombat = {
 local outOfCombat = {
     {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
     {"Щит земли", "!IsSolo && spell.ready && spell.range && !buff", "realTank"},
-    {"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "tank"},
+    --{"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "tank"},
     {Tank},
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
          
