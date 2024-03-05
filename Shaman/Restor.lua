@@ -284,8 +284,14 @@ local Rotation = {
     {"Быстрина", "ui(Bkey_check) && health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},   
     {"Волна исцеления", "ui(HWkey_check) && health <=ui(HWkey_spin) && spell.ready && spell.range && !moving && los", "lowest"},
     --{"Цепное исцеление", "health <=ui(cepkey_spin) && !moving && spell.ready && spell.range && los", "roster"},
-    {"Цепное исцеление", "ui(cepkey_check) && roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
-    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},   
+    -------{"Цепное исцеление", "ui(cepkey_check) && roster.health <=ui(cepkey_spin) && !moving && spell.ready && spell.range", "lowest"},    
+    {"Исцеляющий всплеск", "spell.ready && spell.range && !moving && ui(healkey_check) && health <=ui(healkey_spin)", "lowest"},
+
+    function()
+  if _A.DB:Get("ui(cepkey_check)") and _A.DB:Get("roster.health") <= _A.DB:Get("ui(cepkey_spin)") and _A.DSL:Get("!moving")(_, spell_ids["Цепное исцеление"]) and _A.DSL:Get("spell.ready")(_, spell_ids["Цепное исцеление"]) and _A.DSL:Get("spell.range")(_, spell_ids["Цепное исцеление"]) then
+    _A.CastSpellByID(spell_ids["Цепное исцеление"], "lowest")
+  end
+end
 }
 
 local Interrupts = {    
