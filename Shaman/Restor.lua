@@ -327,7 +327,7 @@ local inCombat = {
 local outOfCombat = {
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
    -- {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},     
-    {Rotation}, 
+   -- {Rotation}, 
     {SelfProtect},         
     {Bless},    
 }
