@@ -278,7 +278,7 @@ local Rotation = {
     --{"Тотем исцеляющего потока", "!exists && spell.ready && lowest.range <= 40 && ui(tothkey_check) && lowest.health <= ui(tothkey_spin)"},
     ------{">Тотем исцеляющего потока", "ui(tothkey_check) && lowest.health <=ui(tothkey_spin) && !exists || exists && distance >10 && spell.ready && lowest.range <=20", "totemID(3527)"}, 
     {"Тотем исцеляющего потока", "spell.ready && lowest.range<= 20 && ui(tothkey_check) && lowest.health<=ui(tothkey_spin)", "roster"},
-    {"Тотем целительного прилива", "spell.ready && lowest.range <=20 && ui(totthkey_check) && lowest.health <=ui(totthkey_spin)", "roster"},
+    {"Тотем целительного прилива", "spell.ready && lowest.range<= 20 && ui(totthkey_check) && lowest.health<=ui(totthkey_spin)", "roster"},
     {"Благосклонность предков", "spell.ready && ui(blagkey_check) && roster.health <=ui(blagkey_spin)"},
     {"Первозданная волна", "ui(PWkey_check) && spell.ready && spell.range && health <=ui(PWkey_spin) && los", "lowest"},
     {"Быстрина", "ui(Bkey_check) && health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},   
