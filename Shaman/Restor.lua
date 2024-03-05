@@ -267,6 +267,10 @@ local SelfProtectAlly = {
    }
 
 local Rotation = {
+    {function() 
+    local exists = _A.DSL:Get("totemID")(3527); 
+    print(exists)
+    end,},
     {"Wind Shear", "spell.ready && spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
     {"Развеивание магии", "ui(purgekey_check) && spell.ready && spell.range", "EnemyCombat"},
     {"Возрождение духа", "ui(vozkey_check) && spell.ready && spell.range", "roster"},    
