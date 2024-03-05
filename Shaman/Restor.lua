@@ -332,6 +332,8 @@ local inCombat = {
 local outOfCombat = {
     {"Быстрина", "health <=ui(Bkey_spin) && spell.ready && spell.range && los && !buff", "roster"},
     {"Щит земли", "!IsSolo && spell.ready && spell.range && !buff", "realTank"},
+    {"Водный щит", "spell.ready && !player.buff"},    
+    {"Lightning Shield", "spell.ready && !player.buff"},
     --{"Щит земли", "!IsSolo && spell.ready && hasRole(tank) && spell.range && !buff", "tank"},
     {Tank},
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
