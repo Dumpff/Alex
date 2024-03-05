@@ -9,13 +9,13 @@ local GUI = {
         ---Атакующие скилы
         {type = "header", text = "Атакующие скилы", align = "center", size = "16"},
         {type = "spacer", size = 10},
-        {type = "checkspin", key = "zemkey", size = 14, text = _A.Core:GetSpellIcon(61882, 16, 16).."Землетрясение и колличество противников", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "zemkey", size = 14, text = _A.Core:GetSpellIcon(61882, 16, 16).."Землетрясение и колличество противников", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 5, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "cepkey", size = 14, text = _A.Core:GetSpellIcon(188443, 16, 16).."Цепнпя молния и колличество противников", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "cepkey", size = 14, text = _A.Core:GetSpellIcon(188443, 16, 16).."Цепнпя молния и колличество противников", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 3, align = "left"},
         {type = "spacer", size = 7},
         {type = "checkbox", key = "zhokey", size = 14, text = _A.Core:GetSpellIcon(8042, 16, 16).."Земной шок", default = true, align = "left", check = true},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "blagkey", size = 14, text = _A.Core:GetSpellIcon(79206, 16, 16).."Благосклонность предков", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "blagkey", size = 14, text = _A.Core:GetSpellIcon(79206, 16, 16).."Благосклонность предков", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 3, align = "left"},
         {type = "spacer", size = 7},
         ---- Defensive Abilities
         {type = "header", text = "Защитные скилы", align = "center", size = "10"},
@@ -24,17 +24,17 @@ local GUI = {
         {type = "spacer", size = 7},
         {type = "checkspin", key = "tothkey", size = 14, text = _A.Core:GetSpellIcon(5394, 16, 16).."Тотоем исцеляющего потока", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
-        {type = "checkspin", key = "predkkey", size = 14, text = _A.Core:GetSpellIcon(108281, 16, 16).."Наставления предков", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", key = "predkkey", size = 14, text = _A.Core:GetSpellIcon(108281, 16, 16).."Наставления предков", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 3, align = "left"},
         {type = "spacer", size = 7},
         {key = "Astral Shift", type = "checkspin", text = "Астральный сдвиг", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60},
         {type = "spacer"},
             ---- Defensive Ally Abilities 
         {type = "header", text = "Массовые защитные скилы", align = "center", size = "10", offset = 15},
-        {key = "Ancestral Guidance", type = "checkspin", text = "Наставление предков", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 20},
+        {key = "Ancestral Guidance", type = "checkspin", text = "Наставление предков", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 3},
         {type = "spacer", size = 5},
-        {key = "Earth Elemental", type = "checkspin", text = "Элементаль земли", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 20},
+        {key = "Earth Elemental", type = "checkspin", text = "Элементаль земли", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 3},
         {type = "spacer", size = 5},
-        {key = "Fire Elemental", type = "checkspin", size = 14, text = _A.Core:GetSpellIcon(198067, 16, 16).."Элементаль огня", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 20},
+        {key = "Fire Elemental", type = "checkspin", size = 14, text = _A.Core:GetSpellIcon(198067, 16, 16).."Элементаль огня", default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 3},
         {type = "spacer", size = 5},
 }
 local spell_ids = {
@@ -119,7 +119,7 @@ local Rotation = {
 
     {"Наставления предков", "spell.ready && ui(predkkey_check) && lowest.health <=ui(predkkey_spin)"},
     {"Тотем исцеляющего потока", "spell.ready && ui(tothkey_check) && player.health <=ui(tothkey_spin)"},
-    {"Благосклонность предков", "spell.ready && ui(blagkey_check) && los && area_range(8).combatEnemies>=ui(blagkey_spin)", "target"},
+    {"Благосклонность предков", "spell.ready && ui(blagkey_check) && los && roster.health <=ui(blagkey_spin)", "roster"},
     {"Lightning Shield", "spell.ready && player.mana>=35 && !player.buff(192106)"},    
     {"Lava Burst", "spell.ready && player.mana>=35 && player.buff(77762) & los", "target"},
     {"Flame Shock", "spell.ready && spell.range && los && !target.debuff(188389) & los", "target"},
