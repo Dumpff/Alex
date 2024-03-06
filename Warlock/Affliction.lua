@@ -430,7 +430,7 @@ local outOfCombat = {
 }
 
 _A.CR:Add(265, {
-    name = "[Afflication]",
+    name = "[AfflicationGit]",
     load = function()
         print("Load function executed")
         exeOnLoad()
