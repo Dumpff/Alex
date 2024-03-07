@@ -186,7 +186,8 @@ local pet = {
     {key = "0", text = "Без пета"},
 }
 
-local pet_choice = {    
+local pet_choice = {
+    {"/run PetDismiss()", "ui(pettype)=0 && pet.exists", "pet"},
     {"688", "ui(pettype)=1 && !lastCast(688).succeed && spell.ready && !ObjExist(416) && !player.moving && !pet"},                            --Бес
     {"697", "ui(pettype)=2 && !lastCast(697).succeed && spell.ready && !ObjExist(1860) && !player.moving && !pet"},                           --Синяк  
    -- {"382021", "ui(blesstype)=3 && !W_Enchant(6498) && spell.ready"},                            --Оружие жизни земли
@@ -312,6 +313,7 @@ local spell_ids = {
     ["Семя порчи"] = 27243,
     ["Нестабильное колдовство"] = 316099,
     ["Канал здоровья"] = 755,
+    ["Бесконечное дыхание"] = 5697,
 }
 
 local exeOnLoad = function()
@@ -367,6 +369,7 @@ local SelfProtect = {
     {"Твердая решимость", "ui(reshkey_check) && player.health <=ui(reshkey_spin) && spell.ready", "player"},
     {"Страх", "keybind({ui(fearkey_key)}) && spell.ready && spell.range && los && !moving", "target"},
     {"Канал здоровья", "keybind({ui(kanal_key)}) && spell.ready && spell.range && los && !moving", "pet"},
+    {"Бесконечное дыхание", "spell.ready && spell.range && los(player) && !player.buff && timeout(Бесконечное дыхание,0.2) && player.swimming", "player"},
 
    --{"Astral Shift", "ui(Astral Shift_check) && player.health <= ui(Astral Shift_spin)", "player"},
    -- {"&Spirit Walk", "ui(Spirit Walk_check) && player.state(root)", "player"},
