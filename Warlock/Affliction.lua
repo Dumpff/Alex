@@ -275,7 +275,7 @@ local GUI = {
         {type = "spacer", size = 10},
         {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(20707, 16, 16, true), key = "ss_enable", default = true},                            --Камень души                       
         {type = "spacer", size = 7},
-        {type = "checkspin", cw = 15, ch= 15, key = "HWkey", size = 14, text = FlexItem(5512, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", cw = 15, ch= 15, key = "HWkey", size = 14, text = FlexIcon(6201, 16, 16, false).."Камень здоровья", default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
         {type = "checkspin", cw = 15, ch= 15, key = "reshkey", size = 14, text = FlexIcon(104773, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
         {type = "spacer", size = 7},
