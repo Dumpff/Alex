@@ -8,6 +8,56 @@ local keybind = function(key) return _A.DSL:Get("keybind")(_, key) end
 -- etc.. for DSLs/Methods that do not require target
 local DSL = function(api) return _A.DSL:Get(api) end
 
+
+
+
+
+local flagBR = false
+_A.DSL:Register("toggle_BR", function()
+    if DSL("timeout")("player", "flagBR, 0.5") then
+        flagBR = not flagBR
+    end
+    return true
+end)
+
+_A.DSL:Register("BR_state", function()
+    return flagBR
+end)
+
+
+local keyT = {}
+_A.DSL:Register("key.toggle", function(_, key_time)
+    local key, xtime = _A.StrExplode(key_time)
+    if not key then
+      return _A.print("You must assign a name to the key")
+    end
+    xtime = tonumber(xtime) or 0.5
+    if DSL("timeout")("player", key..","..xtime) then
+        keyT[key] = not keyT[key]
+    end
+end)
+
+_A.DSL:Register("key.on", function(_, key)
+    return keyT[key]
+end)
+
+
+
+
+
+
+
+-------------------------------Отменить Ауру---------------------------------------------
+
+_A.DSL:Register("CancelAura", function(_, id)
+    ids = tonumber(id)
+    if not ids then return end
+    local name = GetSpellInfo(ids);
+    if name then
+        _A.RunMacroText('/cancelaura '..name)  
+    end
+end)
+
 -------------------------------------Поиск по таблице--------------------------------------
 
 local function find_unit(id)
@@ -243,10 +293,10 @@ local pet = {
 local pet_choice = {        
   
     {"/petdismiss", "ui(pettype)=0 && exists && timeout(sfsdfr, 5)", "pet"}, 
-    {"688", "ui(pettype)=1 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists"},                            --Бес
-    {"697", "ui(pettype)=2 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists"}, 
-    {"366222", "ui(pettype)=3 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists"}, 
-    {"691", "ui(pettype)=4 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists"}, 
+    {"688", "ui(pettype)=1 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"},                            --Бес
+    {"697", "ui(pettype)=2 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
+    {"366222", "ui(pettype)=3 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
+    {"691", "ui(pettype)=4 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
     
    -- {"688", "ui(pettype)=1 && !lastCast(688).succeed && spell.ready && !ObjExist(416) && !player.moving && !pet"},                            --Бес
    -- {"697", "ui(pettype)=2 && !lastCast(697).succeed && spell.ready && !ObjExist(1860) && !player.moving && !pet"},                           --Синяк  
@@ -256,8 +306,10 @@ local pet_choice = {
 
     ------------------------Набор талантов---------------------------
 
-local talent_row1 = 'BkQAAAAAAAAAAAAAAAAAAAAAAAHIJJRSCkmCkWSSIlAAAAANAAAAAAASEtQkkIJSaJRAAJA'   --рейд
-local talent_row2 = 'BkQAAAAAAAAAAAAAAAAAAAAAAgIJJRSCkmCRKHIJh0CAAAAUAAAAAAAQS0IJRikkolEBAkA '  --мифик
+local talent_row1 = 'BkQAAAAAAAAAAAAAAAAAAAAAAAHIJJRSCkmCkWSSIlAAAAANAAAAAAASEtQkkIJSaJRAAJ'   --рейд
+local talent_row2 = 'BkQA+63P9mnDJYMkogOeTUhr8iQSSkkAppAplkESJAAAAQJNAAAAAAAR0IJRikkolEBAkA'  --мифик
+
+                    
 
 ------------------------------------------------------------------------------------------------------------
 
@@ -269,7 +321,7 @@ local talent_row2 = 'BkQAAAAAAAAAAAAAAAAAAAAAAgIJJRSCkmCRKHIJh0CAAAAUAAAAAAAQS0I
 local GUI = {        
         --{type = "texture", texture = "Interface\\Addons\\Apofis\\Core\\media\\MyLogo.tga", width = 420, height = 200, offset = 190, y= -90, align = "center"},
         
-        ---Лечебные скилы
+        ---Атакубщие скилы
     
         {type = "ruler"},
         {type = "header", text = "Атакующие скилы", align = "center", size = "16"},
@@ -285,15 +337,13 @@ local GUI = {
         {type = "spacer", size = 7},
         --{type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(686, 16, 16, true), key = "strela", default = true},                            --стрела тьмы                       
         --{type = "spacer", size = 7},
-        {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(198590, 16, 16, true), key = "dusa", default = true},                            --похищение души                      
-        {type = "spacer", size = 7},
-        {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(316099, 16, 16, true), key = "nestab", default = true},                            --нестабильное колдовство                       
-        {type = "spacer", size = 7},
-        --{type = "dropdown", width = 180, size = 14, text = "Enchant offhand", key = "blesstype", list = Bless_List, default = "0"},
-        --{type = "spacer", size = 7},
-        {type = "checkspin", cw = 15, ch= 15, key = "singul", size = 14, text = FlexIcon(205179, 16, 16, true), default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 1, align = "left"}, --Призрачная сингулярность
-        {type = "spacer", size = 7},
-        
+        -- {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(198590, 16, 16, true), key = "dusa", default = true},                            --похищение души                      
+        -- {type = "spacer", size = 7},
+        -- {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(316099, 16, 16, true), key = "nestab", default = true},                            --нестабильное колдовство                       
+        -- {type = "spacer", size = 7},
+
+       
+        ----------АОЕ
 
         {type = "ruler"},
         {type = "header", text = "АОЕ", align = "center", size = "16"},
@@ -304,14 +354,11 @@ local GUI = {
         {type = "spacer", size = 7}, 
         {type = "checkspin", cw = 15, ch= 15, key = "pagkey", size = 14, text = FlexIcon(324536, 16, 16, true), default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 1, align = "left"},  --пагубный восторг
         {type = "spacer", size = 7},
-        -- {type = "checkspin", key = "Bkey", size = 14, text = FlexIcon(61295, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
+        {type = "checkspin", cw = 15, ch= 15, key = "sozer", size = 14, text = FlexIcon(205180, 16, 16, true), default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 1, align = "left"},  -- Призыв созерцателя тьмы
+        {type = "spacer", size = 7},
+        -- {type = "checkspin", cw = 15, ch= 15, key = "singul", size = 14, text = FlexIcon(205179, 16, 16, true), default = true, min = 1, max = 10, step = 1, shiftStep = 5, spin = 1, align = "left"}, --Призрачная сингулярность
         -- {type = "spacer", size = 7},
-        -- {type = "checkspin", key = "healkey", size = 14, text = FlexIcon(8004, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
-        -- {type = "spacer", size = 7},
-        -- {type = "checkspin", key = "cepkey", size = 14, text = FlexIcon(1064, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
-        -- {type = "spacer", size = 7},
-        -- {type = "checkspin", key = "blagkey", size = 14, text = FlexIcon(79206, 16, 16, true), default = true, min = 1, max = 100, step = 1, shiftStep = 5, spin = 60, align = "left"},
-        -- {type = "spacer", size = 7},
+        
 
         ---- Тотемы
     
@@ -335,7 +382,7 @@ local GUI = {
         -- {key = "vozkey", type = "checkbox", size = 14, text = FlexIcon(77130, 16, 16, true), default = true, align = "left", check = true,}, 
         -- {type = "spacer", size = 7},
     
-            ---- Defensive Ally Abilities 
+            ---- Защитные скилы 
     
         {type = "ruler"},
         {type = "header", text = "Защитные скилы", align = "center", size = "16", offset = 15},
@@ -359,9 +406,14 @@ local GUI = {
         {type = "header", text = "Нажатие кнопок", align = "center", size = "16", offset = 15},
         {type = "ruler"},
         {type = "spacer", size = 10},
-        {type = "input", size = 14, text = FlexIcon(5782, 16, 16, true), key = "fearkey_key", width = 65, default = "R"},
+        {type = "input", size = 14, text = FlexIcon(5782, 16, 16, true), key = "fearkey_key", width = 65, default = "T"},
         {type = "spacer", size = 7},
         {type = "input", size = 14, text = FlexIcon(755, 16, 16, true), key = "kanal_key", width = 65, default = "Alt"},
+        {type = "spacer", size = 7},
+
+        {type = "input", size = 14, text = FlexIcon(108503, 16, 16, true), key = "grimuar", width = 65, default = "G"},
+        {type = "spacer", size = 7},
+        {type = "input", size = 14, text = FlexIcon(111400, 16, 16, true), key = "beg", width = 65, default = "R"},
         {type = "spacer", size = 7},
 
         
@@ -414,14 +466,25 @@ local spell_ids = {
     ["Блуждающий дух"] = 48181,
     ["Гниение души"] = 386997,
     ["Горящая душа"] = 385899,
+    ["Призыв созерцателя тьмы"] = 205180,
+    ["Гримуар жертвоприношения"] = 108503,
+    ["Стремительный бег"] = 111400,
+    ["Burning Rush"] = 111400,
+    ["Темный пакт"] = 108416,
+    ["Dark Pact"] = 108416,
 
 }
 
 local exeOnLoad = function()
     print("Afflication was loaded")
 
+    _A.Interface:ShowToggle("Cooldowns", false)
+    _A.Interface:ShowToggle("aoe", false)
+
     _A.Interface:AddToggle({key = "AutoTarget", name = "Авто Таргет", text = "Автотаргет когда цель умерла или не существует", icon = "Interface\\Icons\\ability_hunter_snipershot",})
     _A.Interface:AddToggle({key = "AutoLoot", name = "Авто Лут", text = "Автоматически лутает мобов вокруг вас", icon = "Interface\\Icons\\inv_misc_gift_05"})
+
+    --_A.Interface:AddToggle({key = "toggle_BR", name = "Бег", text = "Бег", icon = "Interface\\Icons\\Spell_fire_burningspeed"})
 
 
     _A.DSL:Register({'face', 'lookAt'}, function(target) -- 'face' and 'lookAt' do the same
@@ -484,7 +547,20 @@ local SelfProtect = {
     --   }, "spell(Горящая душа).ready && spell(Канал здоровья).ready && spell(Канал здоровья).range && player.health>=50 && !player.moving && los && pet.health <=ui(kanall_spin)", "pet"},
 
 
+    {{
+        {"Burning Rush", "!BR_state && buff", 'player'},
+        {"Burning Rush", "lastmoved>=1 && buff", 'player'},
+    }, "spell(Burning Rush).ready"},
+    {"Burning Rush", "BR_state && spell.ready && health>70 && movingfor>=0.25 && !buff", 'player'},
+    
+    {"%null", "keybind({ui(beg)}) && toggle_BR"},
 
+
+    -- {{
+    --     {"Burning Rush", "spell.ready && buff && {!key({ui(beg)}).on || lastmoved>=1 || health<15}", "player"},
+    --     {"Burning Rush", "key({ui(beg)}).on && spell.ready && !buff && movingfor>=0.25 && health>70", "player"},
+    --     {"%null", "keybind({ui(beg)}) && key({ui(beg)}, 1).toggle"},
+    -- }, "talent(Burning Rush)"},
 
 
    -- --   {function()
@@ -499,20 +575,30 @@ local SelfProtect = {
    -- --     _A.Cast("Канал здоровья", "pet")
    -- -- end, "ui(kanall_check) && spell(Горящая душа).ready && spell(Канал здоровья).ready && spell(Канал здоровья).range && !player.moving player.health>=50 && pet.health <=ui(kanall_spin) && los", "pet"},
 
+
+    -- off
+--{"111400", "!keybind({ui(beg)}) && spell.ready && player.buff(111400)", "player"},
+
+-- on
+--{"111400", "keybind({ui(beg)}) && spell.ready && !player.buff(111400)", "player"},
+
+      
+--    {{
+--     {"!111400", "buff(111400) && CancelAura(111400)", "player"},
+--     {"111400", "!buff && spell.ready && timeout(111400,9)", "player"},
+--   }, "keybind({ui(beg)})" },
+
+
     {"Похищение жизни", "ui(PWkey_check) && player.health <=ui(PWkey_spin) && spell.ready && spell.range && !player.moving && los(player)", "target"},
     {"Лик тлена", "ui(tlen_check) && player.health <=ui(tlen_spin) && spell.ready && spell.range", "target"},
     {"#Камень здоровья", "player.health <=ui(HWkey_spin) && item(Камень здоровья).count>0 && item(Камень здоровья).usable", "player"},
     {"Твердая решимость", "ui(reshkey_check) && player.health <=ui(reshkey_spin) && spell.ready", "player"},
-    {"Страх", "keybind({ui(fearkey_key)}) && spell.ready && spell.range && los && !moving", "target"},
+    {"Страх", "keybind({ui(fearkey_key)}) && spell.ready && spell.range && los && !moving", {"focus", "target"}},
+    {"Гримуар жертвоприношения", "keybind({ui(grimuar)}) && spell.ready && spell.range && los", "pet"},
+    --{"Стремительный бег", "keybind({ui(beg)}) && spell.ready", "player"},
     {"Канал здоровья", "ui(kanall_check) && pet.health <=ui(kanall_spin) && spell.ready && player.health>=50 && exists", "pet"},
     {"Канал здоровья", "keybind({ui(kanal_key)}) && spell.ready && spell.range && los && !moving && exists", "pet"},
-    {"Бесконечное дыхание", "spell.ready && spell.range && los(player) && !player.buff && timeout(Бесконечное дыхание,0.2) && player.swimming", "player"},
-    
-
-   --{"Astral Shift", "ui(Astral Shift_check) && player.health <= ui(Astral Shift_spin)", "player"},
-   -- {"&Spirit Walk", "ui(Spirit Walk_check) && player.state(root)", "player"},
-   -- {"Исцеляющий всплеск", "spell.ready && ui(healkey_check) && player.health <=ui(healkey_spin)", "player"},
-   -- {"Элементаль огня", "ui(Fire Elemental_check) && area_range(8).combatEnemies >=ui(Fire Elemental_spin)", "player"},
+    {"Бесконечное дыхание", "spell.ready && spell.range && los(player) && !player.buff && player.swimming", "player"},
 }
 local SelfProtectAlly = {
 
@@ -521,32 +607,34 @@ local SelfProtectAlly = {
    -- {"&Earth Elemental", "ui(Earth ElementalTank_check) && lowest.health <= ui(Earth ElementalTank_spin) && lowest.hasrole(TANK)", "lowest"}, 334320 урон похищение жизни Неизбежная гибель
 }
 
-local Rotation = {
-
-    
+local Rotation = {    
 
     {"@myLib.face", "ui(povorot) ", "target"},
-    {"#trinket1", "item.usable && boss"},
-    {"#trinket2", "item.usable && boss"},
+    {"Порча", "ui(porkey) && spell.ready && !debuff && los", "EnemiesCombat"},
+    --{"#trinket1", "item.usable", {"target.ground", "target"}},
+    --{"#trinket2", "item.usable", {"target.ground", "target"}},
+    {"1714", "spell.ready && spell.range && !debuff && los && boss", "target"},
     {"Гниение души", "spell.ready && spell(Агония).range && !target.debuff && los && player.soulshards>=1 && area_range(10).combatEnemies>=2 && !player.moving", "target"},
+    {"Призыв созерцателя тьмы", "ui(sozer_check) && spell.ready && player.mana>=50 && area_range(10).combatEnemies>=ui(sozer_spin) && !player.moving", "target"},
     {"Пагуба", "spell.ready && spell(Агония).range && !target.debuff && los && player.soulshards>=2 && area_range(10).combatEnemies>=2 && !player.moving", "target.ground"},
     
-    {"Семя порчи", "spell.ready && spell.range && los(player) && ui(semkey_check) && player.soulshards>=1 && area_range(10).combatEnemies>=ui(semkey_spin) && !target.debuff && !player.moving && !lastCast(27243).succeed", "target"},
+    
+    {"Семя порчи", "spell.ready && spell.range && los(player) && ui(semkey_check) && player.soulshards>=1 && area_range(10).combatEnemies>=ui(semkey_spin) && !target.debuff && !player.moving", "target"}, -- && !lastCast(27243).succeed
     {"Блуждающий дух", "spell.ready && spell.range && !target.debuff && los && !player.moving", "target"},
-    {"Порча", "ui(porkey) && spell.ready && !debuff && los", "EnemiesCombat"},
+    
     {"Похищение жизни", "spell.ready && spell.range && los(player) && !player.moving && player.buff(334320).count>= 30", "target"},
              
     {"Порча", "spell.ready && spell.range && !target.debuff && los", "target"},
-    {"Агония", "spell.ready && spell.range && !target.debuff && timeout(Агония,0.2)", "target"}, 
+    {"Агония", "spell.ready && spell.range && !target.debuff", "target"}, 
 
     {"Нестабильное колдовство", "ui(nestab) && spell.range && !player.moving && los(player) && !debuff && !lastCast(316099).succeed", "target"},
     {"Вытягивание жизни", "spell.ready && spell.range && !target.debuff && los", "target"},
-    {"Пагубный восторг", "spell.ready && ui(pagkey_check) && player.soulshards>=2 && area_range(10).combatEnemies>=ui(pagkey_spin) && !player.moving", "target"},
+    {"Пагубный восторг", "spell.ready && ui(pagkey_check) && player.soulshards>=3 && area_range(10).combatEnemies>=ui(pagkey_spin) && !player.moving", "target"},
     {"Призрачная сингулярность", "spell.ready && spell.range && ui(singul_check) && area_range(10).combatEnemies>=ui(singul_spin) && los", "target"},
     
     
     --{"Пагубный восторг", "spell.ready && spell.range && ui(pagkey_check) && los && area_range(10).combatEnemies>=ui(pagkey_spin) && count(Порча).enemies.debuffs>=ui(pagkey_spin) && soulshards >= 3", "target"},
-    {"!Стрела Тьмы", "spell.ready && spell.range && los(player) && !player.moving && player.buff(264571)", "target"},       
+    {"Стрела Тьмы", "spell.ready && spell.range && los(player) && !player.moving && player.buff(264571)", "target"},       
     {"Обмен душами", "spell.ready && spell.range && !target.debuff && los && !player.moving", "target"},
     {"Стрела Тьмы", "spell.ready && spell.range && los(player) && !player.moving", "target"},
     {"Похищение души", "ui(dusa) && spell.ready && spell(Агония).range && los(player) && !player.moving", "target"},
@@ -564,16 +652,42 @@ local Rotation = {
     
 }
 
+local Survival = {
+    {"Dark Pact", "talent && !lastcast(Unending Resolve) && spell.ready && !buff(Unending Resolve) && incdmg(3)>=health.max*0.4", "player"},    
+  }
+
+  local Trini = {
+
+    {"#trinket1", "equipped(197960) && item(197960).usable", "player"},
+    {"#trinket1", "equipped(193757) && item(193757).usable", "target"},
+    {"#trinket1", "equipped(Взрывающийся фрагмент копья) && item(Взрывающийся фрагмент копья).usable", "target.ground"},
+    {"#trinket1", "equipped(Giant Ornamental Pearl) && item(Giant Ornamental Pearl).usable", "player"},
+    {"#trinket1", "equipped(Talisman of the Cragshaper) && item(Talisman of the Cragshaper).usable", "player"},
+
+    {"#trinket2", "equipped(197960) && item(197960).usable", "player"},
+    {"#trinket2", "equipped(193757) && item(193757).usable", "target"},
+    {"#trinket2", "equipped(Взрывающийся фрагмент копья) && item(Взрывающийся фрагмент копья).usable", "target.ground"},
+    {"#trinket2", "equipped(Talisman of the Cragshaper) && item(Talisman of the Cragshaper).usable", "player"},
+    {"#trinket2", "equipped(Coagulated Nightwell Residue) && item(Coagulated Nightwell Residue).usable && buff(Nightwell Energy).count>=8", "player"},
+  }
+
 local Interrupts = {
+
+    -- {{
+    --     {"*Запрет чар", "spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
+    -- }, "toggle(do_interrupt) && spell(Запрет чар).ready"},
+
     {{
         {"*Запрет чар", "spell.range && isCastingAny && interruptible && interruptAt(60) && los", "EnemyCombat"},
     }, "toggle(Interrupts) && spell(Запрет чар).ready"},    
-}
+ }
 local Cooldowns = {
 }
 
 local inCombat = {
     {Interrupts},
+    {Survival},
+    {Trini},
     {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
     {Bless},    
     {SelfProtectAlly},
@@ -596,7 +710,7 @@ local outOfCombat = {
 }
 
 _A.CR:Add(265, {
-    name = "[AfflicationGit]",
+    name = "[Afflication]",
     load = function()
         print("Load function executed")
         exeOnLoad()
