@@ -8,6 +8,30 @@ local keybind = function(key) return _A.DSL:Get("keybind")(_, key) end
 -- etc.. for DSLs/Methods that do not require target
 local DSL = function(api) return _A.DSL:Get(api) end
 
+_A.FakeUnits:Add("TS_enraged_magic", function(num)
+    local tempTable = {}
+    for _, obj in pairs(_A.OM:Get("EnemyCombat")) do
+        local prio = 0
+        if obj:spellRange("Tranquilizing Shot") then
+            if obj:buffType("Enrage") then
+                prio=2
+            elseif obj:buffType("Magic") then
+                prio=1
+            end
+            if prio>0 then
+                tempTable[#tempTable+1] = {
+                    key = obj.key,
+                    health = obj:healthActual(),
+                    prio = prio,
+                }
+            end
+        end
+    end
+    if #tempTable>1 then
+        table.sort( tempTable, function(a,b) return (a.prio > b.prio) or (a.prio == b.prio and a.health > b.health) end )
+    end
+    return tempTable[num] and tempTable[num].key
+end)
 
 
 local GUI = {  
@@ -16,6 +40,7 @@ local GUI = {
 }
 
 local spell_ids = {
+    ["Освежающее лечебное зелье"] = 191378,
 	["Mend Pet"] = 136,
 	["Kill Command"] = 34026,
 	["Cobra Shot"] = 193455,
@@ -30,8 +55,10 @@ local spell_ids = {
 	["Hunter's Mark"] = 257284,
     ["ResPet"] = 982,
     ["Intimidation"] = 19577,
-    ["Death Chakram"] = 375891,
+    ["Death Chakram"] = 375891,    
     ["Blood Fury"] = 20572, --рассовая орк
+    ["Исступление"] = 272651, -- петовская
+    ["Изнеможение"] = 57723,
     
 
 }
@@ -61,27 +88,33 @@ end
 local exeOnUnload = function()
 end
 
-local Rotation = {    
+local Rotation = {  
 
+    
     {"@myLib.face", "ui(povorot) ", "target"},
-    {"Hunter's Mark", "spell.ready && spell.range && isboss && !debuff && timeout(HMark, 0.2)", "target"},
+    {"Hunter's Mark", "spell.ready && isboss && !debuff && timeout(HMark, 0.2)", "target"},
+    --{"Hunter's Mark", "spell.ready && !debuff && timeout(HMark, 0.2)", "Boss1"},
     {"Blood Fury", "spell.ready && isboss", "target"},
-    {"Death Chakram", nil, "Boss1"},
+    {"Blood Fury", "spell.ready", "Boss1"},
+    {"Death Chakram", nil, "Boss1"},--
     {"Death Chakram", "isboss", "target"},
-	{"Barbed Shot", nil, "target"},--
-	-- {"A Murder of Crows", "talent", "target"},
-	-- {"Stampede", "talent && ttd>24 && {player.buff(Bloodlust) || player.buff(Bestial Wrath) || spell(Bestial Wrath).cooldown<3}", "player"},
-	-- {"Dire Beast", "spell(Bestial Wrath).cooldown>3", "target"},
-	-- {"Dire Frenzy", "talent && {pet.buff(Dire Frenzy).duration<=1.5 || spell(Dire Frenzy).charges>0.8}", "target"},
-	-- {"Chimaera Shot", "talent &&  player.focus<90", "target"},
-	{"Bestial Wrath", nil, "pet"},
-    {function() _A.CastSpellByID(34026, "target") end, "exists && spell(34026).ready && pet.exists", {"target", "pet"}},            --команда взять---
-	--{"6603", "pet.exists && spell(34026).ready && kludge(34026)", {"target", "pet"}}, --  at least it do the job :D
-    {function() _A.CastSpellByID(272651, "pet") end, "exists && spell(272651).ready && !debuff", "Boss1"},                          -- умение пета
-	--{"Kill Command", "spell.ready", "target"},
+	{"Barbed Shot", nil, "target"},--   
+    ---------{"%Разрывающий выстрел", nil, "target"}, 
+	-------- {"A Murder of Crows", "talent", "target"},
+	-------- {"Stampede", "talent && ttd>24 && {player.buff(Bloodlust) || player.buff(Bestial Wrath) || spell(Bestial Wrath).cooldown<3}", "player"},
+	-------- {"Dire Beast", "spell(Bestial Wrath).cooldown>3", "target"},
+	-------- {"Dire Frenzy", "talent && {pet.buff(Dire Frenzy).duration<=1.5 || spell(Dire Frenzy).charges>0.8}", "target"},
+	-------- {"Chimaera Shot", "talent &&  player.focus<90", "target"},
+	{"Bestial Wrath", "pet.exists && !pet.dead", "pet"},--
+    {function() _A.CastSpellByID(34026, "target") end, "exists && spell(34026).ready && pet.exists && los", {"target", "pet"}},            --команда взять---
+ 
+	--------{"6603", "pet.exists && spell(34026).ready && kludge(34026)", {"target", "pet"}}, --  at least it do the job :D
+    --{function() _A.CastSpellByID(272651, "pet") end, "exists && spell(272651).ready && !player.debuff(Изнеможение) && pet.exists", {"Boss1", "player"}},                          -- умение пета
+    {"Исступление", "!player.debuff(57723) && !player.debuff(Изнеможение) && spell.ready && isboss && pet.exists", {"Boss1", "player"}},
+	--------{"Kill Command", "spell.ready", "target"},
 	{"Cobra Shot", nil, "target"},--
-    {"!Kill Shot", nil, "target"},
-	-- {"Concussive Shot", "spell.range && player.focus<40", "target"},
+    {"!Kill Shot", nil, "target"},--
+	------- {"Concussive Shot", "spell.range && player.focus<40", "target"},
 }
 
 local AOE = {
@@ -97,25 +130,26 @@ local AOE = {
 
 
 local Survival = {
+    {"#Освежающее лечебное зелье", "player.health<=25 && item(Освежающее лечебное зелье).count>0 && item(Освежающее лечебное зелье).usable", "player"},
 	{"Exhilaration", "spell.ready && health<=40", "player"},
-	{"Mend Pet", "health<=75 && distancefrom(pet) <= 40 && los && !pet.dead", "pet"},
-    {"ResPet", "pet.dead && timeout(ResPet, 0.2)", "pet"},
-    {"Survival of the Fittest", "talent && !lastcast(Exhilaration) && spell.ready && !buff(Exhilaration) && incdmg(3)>=health.max*0.4", "player"},    
+	{"Mend Pet", "health<=75 && !pet.dead && pet.exists && timeout(Mend, 0.2)", "pet"},
+    {"ResPet", "pet.dead && timeout(ResPet, 0.2) && pet.exists", "pet"},
+    {"Survival of the Fittest", "!lastcast(Exhilaration) && spell.ready && incdmg(3)>=health.max*0.4", "player"},    
   }
 
   local Trini = {
 
     {"#trinket1", "equipped(197960) && item(197960).usable", "player"},
-    {"#trinket1", "equipped(193757) && item(193757).usable", "target"},
-    {"#trinket1", "equipped(Взрывающийся фрагмент копья) && item(Взрывающийся фрагмент копья).usable", "target.ground"},
-    {"#trinket1", "equipped(193769) && item(193769).usable", "target.ground"},
+    {"#trinket1", "equipped(193757) && item(193757).usable && los", "target"},
+    {"#trinket1", "equipped(Взрывающийся фрагмент копья) && item(Взрывающийся фрагмент копья).usable && los", "target.ground"},
+    {"#trinket1", "equipped(193769) && item(193769).usable && los", "target.ground"},
     {"#trinket1", "equipped(Giant Ornamental Pearl) && item(Giant Ornamental Pearl).usable", "player"},
     {"#trinket1", "equipped(Talisman of the Cragshaper) && item(Talisman of the Cragshaper).usable", "player"},
 
     {"#trinket2", "equipped(197960) && item(197960).usable", "player"},
-    {"#trinket2", "equipped(193757) && item(193757).usable", "target"},
-    {"#trinket2", "equipped(Взрывающийся фрагмент копья) && item(Взрывающийся фрагмент копья).usable", "target.ground"},
-    {"#trinket1", "equipped(193769) && item(193769).usable", "target.ground"},
+    {"#trinket2", "equipped(193757) && item(193757).usable && los", "target"},
+    {"#trinket2", "equipped(Взрывающийся фрагмент копья) && item(Взрывающийся фрагмент копья).usable && los", "target.ground"},
+    {"#trinket1", "equipped(193769) && item(193769).usable && los", "target.ground"},
     {"#trinket2", "equipped(Talisman of the Cragshaper) && item(Talisman of the Cragshaper).usable", "player"},
     {"#trinket2", "equipped(Coagulated Nightwell Residue) && item(Coagulated Nightwell Residue).usable && buff(Nightwell Energy).count>=8", "player"},
   }
@@ -129,16 +163,16 @@ local Interrupts = {
     --     {"Tranquilizing Shot", "spell.range && {buff(Enrage).type || buff(Magic).type}", "enemycombat"},---------
     -- }, "talent(Tranquilizing Shot) && spell(Tranquilizing Shot).ready && !isRaid"},
      
-    --  {{
+    -- {{
     --     {"Tranquilizing Shot", "exists", "TS_enraged_magic"},
-    -- }, "talent(Tranquilizing Shot) && spell(Tranquilizing Shot).ready && !isRaid"}, 
+    -- }, "talent(Tranquilizing Shot) && spell(Tranquilizing Shot).ready"},
 
     {{
-        {"*Counter Shot", "spell.range && isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
+        {"*Counter Shot", "isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
     }, "toggle(Interrupts) && spell(Counter Shot).ready"}, 
     
     {{
-        {"Intimidation", "exists && isCastingAny && los && !immune", "EnemyCombat"},
+        {"Intimidation", "pet.exists && !pet.dead && isCastingAny && !immune", "EnemyCombat"},
     }, "toggle(Interrupts) && spell(Intimidation).ready &&  spell(Counter Shot).cooldown > 3"},
  }
 local Cooldowns = {
@@ -146,26 +180,29 @@ local Cooldowns = {
 
 
 local Validate = {
-
     {Trini},
-	--{'/startattack', '!auto.shoot'},	
-    {Interrupts, "toggle(Interrupts)"},
-    
-	{AOE, "area(15).enemies>2 && toggle(aoe)", "target"},
+	{'/startattack', '!auto.shoot'},	
+    {Interrupts, "toggle(Interrupts)"},    
+	{AOE, "area(15).enemies>=2 && toggle(aoe)", "target"},
 	{Rotation},
+      
 }
 
-local inCombat = {
+local inCombat = {   
+    {"%pause", "player_lost_control"},
     {Survival},	
-    {Validate},   
+    {Validate}, 
+
+
+     
     {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
     
 }
-local outOfCombat = {    
-	{Survival}, 
-    {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<3.9", "dead"}, 
-
-      
+local outOfCombat = { 
+     
+	{Survival},    
+    {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},      
+ 
 }
 
 _A.CR:Add(253, {
