@@ -168,7 +168,7 @@ local Interrupts = {
     -- }, "talent(Tranquilizing Shot) && spell(Tranquilizing Shot).ready"},
 
     {{
-        {"*Counter Shot", "isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
+        {"Counter Shot", "isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
     }, "toggle(Interrupts) && spell(Counter Shot).ready"}, 
     
     {{
