@@ -168,7 +168,7 @@ local Interrupts = {
     -- }, "talent(Tranquilizing Shot) && spell(Tranquilizing Shot).ready"},
 
     {{
-        {"Counter Shot", "isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
+        {"*Counter Shot", "isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
     }, "toggle(Interrupts) && spell(Counter Shot).ready"}, 
     
     {{
@@ -183,7 +183,7 @@ local Validate = {
     {Trini},
 	{'/startattack', '!auto.shoot'},	
     {Interrupts, "toggle(Interrupts)"},    
-	{AOE, "area(15).enemies>=2 && toggle(aoe)", "target"},
+	{AOE, "area(15).enemies>=2 && toggle(aoe)"},
 	{Rotation},
       
 }
