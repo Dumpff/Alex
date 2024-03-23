@@ -181,10 +181,10 @@ local Cooldowns = {
 
 local Validate = {
     {Trini},
-	{'/startattack', '!auto.shoot'},	
+    {'/startattack', '!auto.shoot'},	
     {Interrupts, "toggle(Interrupts)"},    
-	{AOE, "area(15).enemies>=2 && toggle(aoe)"},
-	{Rotation},
+    {AOE, "area(15).enemies>=2 && toggle(aoe)"},
+    {Rotation},
       
 }
 
