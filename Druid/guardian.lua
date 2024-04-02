@@ -345,7 +345,7 @@ local outOfCombat = {
 }
 
 _A.CR:Add(104, {
-    name = "[Танк]",
+    name = "[Танк_Git]",
     load = function()
         print("Load function executed")
         exeOnLoad()
