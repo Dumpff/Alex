@@ -197,9 +197,9 @@ local Bless_List = {
 }
 
 local Bless = {
-    {"702", "ui(blesstype)=1 && !target.debuff && spell.ready && spell.range && los", "target"},                            --Проклятие слабости
-    {"334275", "ui(blesstype)=2 && !target.debuff && spell.ready && spell.range && los", "target"},                             --Проклятие изнеможения  
-    {"1714", "ui(blesstype)=3 && !target.debuff && spell.ready && spell.range && los", "target"},                            --Проклятие красноязычия
+    {"Проклятие слабости", "ui(blesstype)=1 && exists && !target.debuff && spell.ready && spell.range && los", "target"},                            --Проклятие слабости
+    {"Проклятие изнеможения", "ui(blesstype)=2 && !target.debuff && spell.ready && spell.range && los", "target"},                             --Проклятие изнеможения  
+    {"Проклятие красноязычия", "ui(blesstype)=3 && !target.debuff && spell.ready && spell.range && los", "target"},                            --Проклятие красноязычия
 }
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------Роль Танка--------------------------------------------------------------
@@ -293,10 +293,10 @@ local pet = {
 local pet_choice = {        
   
     {"/petdismiss", "ui(pettype)=0 && exists && timeout(sfsdfr, 5)", "pet"}, 
-    {"688", "ui(pettype)=1 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"},                            --Бес
-    {"697", "ui(pettype)=2 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
-    {"366222", "ui(pettype)=3 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
-    {"691", "ui(pettype)=4 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
+    {"Бес", "ui(pettype)=1 && exists && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"},                            --Бес
+    {"Синяк", "ui(pettype)=2 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
+    {"Сайаад", "ui(pettype)=3 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
+    {"Охотник скверны", "ui(pettype)=4 && && timeout(sfsdfr, 7) && spell.ready && !player.moving && !pet.exists && !player.buff(196099)"}, 
     
    -- {"688", "ui(pettype)=1 && !lastCast(688).succeed && spell.ready && !ObjExist(416) && !player.moving && !pet"},                            --Бес
    -- {"697", "ui(pettype)=2 && !lastCast(697).succeed && spell.ready && !ObjExist(1860) && !player.moving && !pet"},                           --Синяк  
@@ -472,6 +472,14 @@ local spell_ids = {
     ["Burning Rush"] = 111400,
     ["Темный пакт"] = 108416,
     ["Dark Pact"] = 108416,
+    ["Проклятие слабости"] = 702,
+    ["Бес"] = 688,
+    ["Синяк"] = 697,
+    ["Сайаад"] = 366222,
+    ["Охотник скверны"] = 691,
+    ["Проклятие изнеможения"] = 334275,
+    ["Проклятие красноязычия"] = 1714,
+
 
 }
 
@@ -710,7 +718,7 @@ local outOfCombat = {
 }
 
 _A.CR:Add(265, {
-    name = "[Afflication_Git]",
+    name = "[Afflication]",
     load = function()
         print("Load function executed")
         exeOnLoad()
