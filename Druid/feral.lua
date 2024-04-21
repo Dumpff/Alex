@@ -104,6 +104,8 @@ local GUI = {
     {type = "ruler"},
     {type = "header", text = "Настройки", align = "center", size = "16", offset = 15},
     {type = "ruler"},
+    {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(8921, 16, 16, true), key = "kach", default = false},                            --Кач                       
+    {type = "spacer", size = 7},
     {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(5215, 16, 16, true), key = "ten", default = false},                            --Крадущийся зверь                       
     {type = "spacer", size = 7},
     -- {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(5487, 16, 16, false).."Автоформа", key = "form", default = false},                            --Автоформа                       
@@ -169,6 +171,8 @@ local Forms ={
 }
 
 local Survival = {
+    {"%pause", "lost.control"}, 
+    {"Лунный огонь", "ui(kach) && spell.ready && spell.range && !debuff", "Enemies"},
 --     {"Возрождение", "keybind({ui(ress)}) && spell.ready && spell.range && dead", "roster"},
 --    {"Обновление", "spell.ready && health<=65", "player"},
 --    {"Инстинкты выживания", "spell.ready && health<=40", "player"},
@@ -267,6 +271,8 @@ local Interrupts = {
 }
 
 local Trini = {
+    
+    {"Восстановление","spell.proc && health <= 80","player"},
     {function() _A.CastSpellByID(26297, "player") end, "exists && spell(26297).ready", "player"},
 
     {"#trinket1", "equipped(197960) && item(197960).usable", "player"},
@@ -287,6 +293,7 @@ local Trini = {
 
     {"#133642", "equipped(133642) && item(133642).usable", "player"},
     {"#200552", "equipped(200552) && item(200552).usable", "player"},
+    {"#193701", "equipped(193701) && item(193701).usable", "player"},
   }
 
 local Cooldowns = {
@@ -333,7 +340,7 @@ local Keybinds = {
 -- keyboardframe:SetScript("OnKeyDown", testkeys)
 
 
-local inCombat = {
+local inCombat = {    
     {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
     {Survival},
     {Forms},
@@ -346,7 +353,7 @@ local inCombat = {
    --{SelfProtect},
 }
 local outOfCombat = {
-    {Survival},
+    {Survival},    
     {"Крадущийся зверь","ui(ten) && spell.ready && !buff", "player"},
     {"Водный облик", "spell.ready && !buff(783) && player.swimming && to(WaterForm, 0.2)", "player"},   
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
