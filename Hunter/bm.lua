@@ -98,7 +98,7 @@ local Rotation = {
     {"Blood Fury", "spell.ready", "Boss1"},
     {"Death Chakram", nil, "Boss1"},--
     {"Death Chakram", "isboss", "target"},
-	{"Barbed Shot", nil, "target"},--   
+    {"Barbed Shot", nil, "enemycombat"},--   
     ---------{"%Разрывающий выстрел", nil, "target"}, 
 	-------- {"A Murder of Crows", "talent", "target"},
 	-------- {"Stampede", "talent && ttd>24 && {player.buff(Bloodlust) || player.buff(Bestial Wrath) || spell(Bestial Wrath).cooldown<3}", "player"},
@@ -110,7 +110,7 @@ local Rotation = {
  
 	--------{"6603", "pet.exists && spell(34026).ready && kludge(34026)", {"target", "pet"}}, --  at least it do the job :D
     --{function() _A.CastSpellByID(272651, "pet") end, "exists && spell(272651).ready && !player.debuff(Изнеможение) && pet.exists", {"Boss1", "player"}},                          -- умение пета
-    {"Исступление", "!player.debuff(57723) && !player.debuff(Изнеможение) && spell.ready && isboss && pet.exists", {"Boss1", "player"}},
+    --{"Исступление", "!player.debuff(57723) && !player.debuff(Изнеможение) && spell.ready && isboss && pet.exists", {"Boss1", "player"}},
 	--------{"Kill Command", "spell.ready", "target"},
 	{"Cobra Shot", nil, "target"},--
     {"!Kill Shot", nil, "target"},--
@@ -206,7 +206,7 @@ local outOfCombat = {
 }
 
 _A.CR:Add(253, {
-    name = "[BM]",
+    name = "[BM_Git]",
     load = function()
         print("Load function executed")
         exeOnLoad()
