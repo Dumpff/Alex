@@ -291,7 +291,7 @@ local Interrupts = {
 	-- {"*Tranquilizing Shot", "spell.ready && target.buff(Enrage).type", "target"},
 
     {"Tranquilizing Shot", "spell.ready && buff(Magic).type && los", "enemycombat"},
-	{"Tranquilizing Shot", "spell.ready && buff(Enrage).type && los", "enemycombat"},
+    {"Tranquilizing Shot", "spell.ready && buff(Enrage).type && los", "enemycombat"},
 	 --{"Counter Shot", nil, "EnemyCombat"},
 
     --  {{
@@ -302,6 +302,8 @@ local Interrupts = {
     --     {"Tranquilizing Shot", "exists", "TS_enraged_magic", "enemycombat"},
     -- }, "talent(Tranquilizing Shot) && spell(Tranquilizing Shot).ready"},
 
+	
+
     {{
         {"Counter Shot", "isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
     }, "toggle(Interrupts) && spell(Counter Shot).ready"}, 
@@ -309,6 +311,11 @@ local Interrupts = {
     {{
         {"Intimidation", "pet.exists && !pet.dead && isCastingAny && !immune", "EnemyCombat"},
     }, "toggle(Interrupts) && spell(Intimidation).ready &&  spell(Counter Shot).cooldown > 3"},
+
+
+	    {{
+        {"Замораживающая ловушка", "exists && isCasting(408805) && interruptAt(40)", "enemies.ground"},
+    }, "spell(Замораживающая ловушка).ready && spell(Barbed Shot).range"}, --toggle(Interrupts) && ui(afix) &&
 
     {{
         {"Замораживающая ловушка", "exists && isCastingAny && interruptible && interruptAt(10) && !immune", "enemycombat.ground"},
