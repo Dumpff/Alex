@@ -202,8 +202,8 @@ local Forms ={
 
 local Survival = {
     
-    {"Знак дикой природы","!buff", "player"}, 
-    {"Знак дикой природы","!buff && indungeon", "roster"},
+    -- {"Знак дикой природы","!buff", "player"}, 
+    -- {"Знак дикой природы","!buff && indungeon", "roster"},
 
 
     -- {function()
