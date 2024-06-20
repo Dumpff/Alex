@@ -100,6 +100,15 @@ end
     
     -------------------------------------------------------------------------------------------------------------
 
+    local exeOnUnload = function()
+    end
+
+    local Bless_List = {
+        {key = "1", text = "С себя"},
+        {key = "2", text = "С союзников"},    
+        {key = "0", text = "Отключено"},
+    }
+
 local GUI = {
     {type = "ruler"},
     {type = "header", text = "Настройки", align = "center", size = "16", offset = 15},
@@ -107,6 +116,13 @@ local GUI = {
     {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(8921, 16, 16, true), key = "kach", default = false},                            --Кач                       
     {type = "spacer", size = 7},
     {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(5215, 16, 16, true), key = "ten", default = false},                            --Крадущийся зверь                       
+    {type = "spacer", size = 7},
+    {type = "dropdown", width = 180, size = 14, text = FlexIcon(2782, 16, 16, true), key = "blesstype", list = Bless_List, default = "1"},
+    {type = "spacer", size = 7},
+    {type = "ruler"},
+    {type = "header", text = "Профессии", align = "center", size = "16", offset = 15},
+    {type = "ruler"},
+    {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(13262, 16, 16, true), key = "Disenchant", default = false},                            --Кач                       
     {type = "spacer", size = 7},
     -- {type = "checkbox", cw = 15, ch= 15, size = 15, text = FlexIcon(5487, 16, 16, false).."Автоформа", key = "form", default = false},                            --Автоформа                       
     -- {type = "spacer", size = 7},
@@ -137,6 +153,20 @@ local spell_ids = {
     ["Смести"] = 400254,
     ["Берсерк"] = 26297,
     ["Крадущийся зверь"] = 5215,
+    ["Озарение"] = 29166,
+    ["Снятие порчи"] = 2782,
+
+
+
+
+
+
+    ["Disenchant"] = 13262, -- распыление
+
+}
+
+
+local proffesions = {    
 
 }
 
@@ -171,8 +201,34 @@ local Forms ={
 }
 
 local Survival = {
-    {"%pause", "lost.control"}, 
+    
+    {"Знак дикой природы","!buff", "player"}, 
+    {"Знак дикой природы","!buff && indungeon", "roster"},
+
+
+    -- {function()
+    --     local px, py, pz = _A.ObjectPosition("player")
+    --     print(px, py, pz)
+    --     end},
+
+    {"#Камень здоровья", "player.health <=60 && item(Камень здоровья).count>0 && item(Камень здоровья).usable", "player"},
+    {"#Освежающее лечебное зелье", "player.health<=25 && item(Освежающее лечебное зелье).count>0 && item(Освежающее лечебное зелье).usable", "player"},
+    {"!Восстановление","spell.proc && health <= 90","player"},
+    {"Озарение", "exists && spell.ready && spell.range && hasrole(Healer) && mana <=50", "roster"},
+
+    {"%dispelself", "spell(Снятие порчи).ready", "player"},
+    {"%dispelall", "spell(Снятие порчи).ready && spell.range", "roster"},
+
+    {{
+        {"Снятие порчи", "exists && spell.range", "friendlyID(204773)"},
+    }, "spell(Снятие порчи).ready"},
+
+    -- {"Снятие порчи", "ui(blesstype)=1 && spell.ready && debuff(Poison).type ", "player"},
+    -- {"Снятие порчи", "ui(blesstype)=1 && spell.ready && debuff(Curse).type ", "player"},
+    -- {"Снятие порчи", "ui(blesstype)=2 && exists && spell.ready && spell.range && debuff(Poison).type ", "roster"},
+    -- {"Снятие порчи", "ui(blesstype)=2 && exists && spell.ready && spell.range && debuff(Curse).type ", "roster"},
     {"Лунный огонь", "ui(kach) && spell.ready && spell.range && !debuff", "Enemies"},
+    {"Умиротворение", "spell.ready && buff(Enrage).type", "enemycombat"},
 --     {"Возрождение", "keybind({ui(ress)}) && spell.ready && spell.range && dead", "roster"},
 --    {"Обновление", "spell.ready && health<=65", "player"},
 --    {"Инстинкты выживания", "spell.ready && health<=40", "player"},
@@ -200,7 +256,7 @@ local Survival = {
 --     {"Взбучка","range < 8 && spell.ready","target"},--range < 8
 --     {"Увечье","range < 8 && spell.ready","target"},--range < 8
 --     {"Размах","spell.ready && && spell(Увечье).range && !spell(Взбучка).ready && !spell(Увечье).ready","target"},--range < 8 && !spell(Взбучка).ready && !spell(Увечье).ready
---     {"Дубовая кожа","spell.ready && !player.buff"},
+--     {"Дубовая кожа","spell.ready && !player.buff && incdmg(3) > health.max * 0.5"},
 
 -- }
 
@@ -252,7 +308,7 @@ local Rotation = {
 --     {"Взбучка","spell(Увечье).range && spell.ready","target"},--range < 8
 --     {"Увечье","spell.range && spell.ready","target"},--range < 8
 --     {"Размах","spell.ready && && spell(Увечье).range && !spell(Взбучка).ready && !spell(Увечье).ready","target"},--range < 8 && !spell(Взбучка).ready && !spell(Увечье).ready
---     {"Дубовая кожа","spell.ready && !player.buff"},
+     {"&Дубовая кожа","spell.ready && !player.buff && incdmg(3) > health.max * 0.5"},
 
 }
 
@@ -262,7 +318,9 @@ local AOE = {
 
 local Interrupts = {
 
-    -- {"!Умиротворение", "spell.ready && buff(Enrage).type", "enemycombat"},
+    
+    {"&Лобовая атака", "toggle(Interrupts) && spell.ready && isCastingAny && interruptible && los", "EnemyCombat"},
+    
 
     -- {{
     --     {"Лобовая атака", "isCastingAny && interruptible && interruptAt(10) && los", "EnemyCombat"},
@@ -272,7 +330,7 @@ local Interrupts = {
 
 local Trini = {
     
-    {"Восстановление","spell.proc && health <= 80","player"},
+    
     {function() _A.CastSpellByID(26297, "player") end, "exists && spell(26297).ready", "player"},
 
     {"#trinket1", "equipped(197960) && item(197960).usable", "player"},
@@ -340,10 +398,11 @@ local Keybinds = {
 -- keyboardframe:SetScript("OnKeyDown", testkeys)
 
 
-local inCombat = {    
+local inCombat = { 
+    {"%pause", "lost.control"},   
     {"%target", "toggle(AutoTarget) && {!target.exists || target.dead}", "nearEnemyCb"}, --автотаргет    
     {Survival},
-    {Forms},
+  --  {Forms},
     {Keybinds},
     {Trini},
     {Interrupts, "toggle(Interrupts)"},
@@ -354,7 +413,7 @@ local inCombat = {
 }
 local outOfCombat = {
     {Survival},    
-    {"Крадущийся зверь","ui(ten) && spell.ready && !buff", "player"},
+    {"&Крадущийся зверь","ui(ten) && spell.ready && !buff", "player"},
     {"Водный облик", "spell.ready && !buff(783) && player.swimming && to(WaterForm, 0.2)", "player"},   
     {"@Utils.AutoLoot", "toggle(AutoLoot) && bagSpace>0 && hasLoot && distance<7", "dead"},
     {Keybinds}
