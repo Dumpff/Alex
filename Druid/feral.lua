@@ -203,7 +203,7 @@ local Forms ={
 local Survival = {
     
     {"Знак дикой природы","!buff(1126).any", "player"}, 
-    {"Знак дикой природы","!buff(1126).any && !pvp", "roster"},
+    -- {"Знак дикой природы","!buff(1126).any && !pvp", "roster"},
 
 
     -- {function()
